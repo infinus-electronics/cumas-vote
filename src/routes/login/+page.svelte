@@ -5,20 +5,35 @@
 		Content,
 		FluidForm,
 		Grid,
+		ListBox,
 		PasswordInput,
 		Row,
 		TextInput
 	} from 'carbon-components-svelte';
+	
 
-	import PocketBase from 'pocketbase';
-
-	const pb = new PocketBase('https://vote.cumas.org');
-
+    import {pb, currentUser} from "$lib/pocketbase"
+	
 	let username: string;
 	let password: string;
 
-	function logIn() {
-		console.log('attemped Log In');
+	async function logIn() {
+        try{
+            const authData = await pb.collection('users').authWithPassword(username, password);
+            console.log(authData)
+
+		// after the above you can also access the auth data from the authStore
+		// console.log(pb.authStore.isValid);
+		// console.log(pb.authStore.token);
+		// console.log(pb.authStore.model.id);
+
+		// "logout" the last authenticated model
+		// pb.authStore.clear();
+        }
+        catch(err){
+            console.log(err)
+        }
+		
 	}
 </script>
 
