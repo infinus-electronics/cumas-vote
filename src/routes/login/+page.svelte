@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		Button,
 		Column,
 		Content,
 		FluidForm,
@@ -8,9 +9,17 @@
 		Row,
 		TextInput
 	} from 'carbon-components-svelte';
+
 	import PocketBase from 'pocketbase';
 
 	const pb = new PocketBase('https://vote.cumas.org');
+
+	let username: string;
+	let password: string;
+
+	function logIn() {
+		console.log('attemped Log In');
+	}
 </script>
 
 <Content>
@@ -22,14 +31,24 @@
 		</Row>
 		<Row>
 			<Column>
-				<FluidForm>
-					<TextInput labelText="CRSid" placeholder="cumas94" required />
+				<FluidForm
+					on:submit={() => {
+						logIn();
+					}}
+				>
+					<TextInput labelText="CRSid" placeholder="cumas94" required bind:value={username} />
 					<PasswordInput
 						required
 						type="password"
 						labelText="Password"
 						placeholder="Enter password..."
+						bind:value={password}
 					/>
+					<Row>
+						<Column>
+							<Button type="submit">Submit</Button>
+						</Column>
+					</Row>
 				</FluidForm>
 			</Column>
 		</Row>
