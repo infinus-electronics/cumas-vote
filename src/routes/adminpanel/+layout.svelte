@@ -1,9 +1,10 @@
 <script>
-	import { Content, SideNav } from "carbon-components-svelte";
+	import { Content, SideNav, SideNavItems, SideNavMenuItem } from "carbon-components-svelte";
 
 </script>
-<Content>
+
     <SideNav isOpen={true}>
-        <slot />
+        <SideNavMenuItem href="/adminpanel/votingcontrol">Voting Control</SideNavMenuItem>
+        
     </SideNav>
-</Content>
+    <slot />
