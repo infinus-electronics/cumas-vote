@@ -16,6 +16,7 @@
 	 */
 	export let candidates;
 
+
 	$: pb.collection('positions')
 		.getOne(data.currentSelected)
 		.then((record) => {

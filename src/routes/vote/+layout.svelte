@@ -4,7 +4,7 @@
   /** @type {import('./$types').LayoutData} */  
   export let data;
 
-  console.log("layout rerender")
+  // console.log("layout rerender")
 
 </script>
 
