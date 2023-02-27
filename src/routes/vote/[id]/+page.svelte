@@ -28,16 +28,23 @@
 
 	let openToVote = true;
 
+	function setOpenToVote(e){
+		openToVote = e;
+		console.log(e)
+	}
+
 	$: pb.collection('positions')
 		.getOne(data.currentSelected)
 		.then((record) => {
 			// console.log(record);
 			currentRecord = record;
+			
 			pb.collection('positions').unsubscribe();
 			pb.collection('positions').subscribe(record.id, function (e) {
 				console.log(e.record);
-				openToVote = e.record.open_to_vote;
+				setOpenToVote(e.record.open_to_vote);
 			});
+			setOpenToVote(record.open_to_vote);
 			pb.collection('candidates')
 				.getFullList({ filter: `(contesting~"${record.id}")` })
 				.then((res) => {
@@ -158,8 +165,7 @@
 			<Row>
 				<Column>
 					<Button
-						disabled={!openToVote ||
-							!currentRecord.open_to_vote ||
+						disabled={!openToVote  ||
 							selectedA === undefined ||
 							(selectedA !== 'RON' && selectedB === undefined)}
 						on:click={castVote}
