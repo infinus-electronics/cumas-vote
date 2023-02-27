@@ -11,7 +11,8 @@
 		TileGroup
 	} from 'carbon-components-svelte';
 
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy} from 'svelte';
+
 	/** @type {import('./$types').PageData} */
 	export let data;
 
@@ -85,6 +86,10 @@
 				pb.collection('polls').update(res.id, data);
 			});
 	}
+
+    onDestroy(()=>{
+        pb.collection('positions').unsubscribe();
+    })
 	// onMount(async()=>{
 	//     const record = await pb.collection('positions').getOne(data.currentSelected)
 	//     console.log(record)
