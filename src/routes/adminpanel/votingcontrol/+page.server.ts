@@ -5,7 +5,15 @@ import PocketBase from 'pocketbase';
 export async function load({locals}) {
     // console.log('here')
     // console.log(locals.user)
-    if(!(locals.user.role !== "moderator" || locals.user.role !== "admin")){
-        throw redirect(302, "/vote")
+    try{
+        if(locals.user.role === null){
+            throw redirect(302, "/login")
+        } else if (!(locals.user.role !== "moderator" || locals.user.role !== "admin")){
+            throw redirect(302, "/vote")
+        }
     }
+    catch (err) {
+        throw(err)
+    }
+    
 }

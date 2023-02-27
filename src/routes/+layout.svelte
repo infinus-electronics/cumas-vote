@@ -20,7 +20,7 @@
 		goto("/")
 	}
 
-	$: console.log(currentUser)
+	// $: console.log(currentUser)
 	// import { get } from 'svelte/store';
 	// import { onMount } from 'svelte';
 	// import type { Record, Admin } from 'pocketbase';
