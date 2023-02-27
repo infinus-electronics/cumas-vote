@@ -74,10 +74,11 @@
 </script>
 
 <Content>
+    {#if currentRecord !== undefined}
 	<Grid padding>
 		<Row>
 			<Column>
-				<h1>{currentRecord === undefined ? '' : currentRecord.title}</h1>
+				<h1>{currentRecord.title}</h1>
 			</Column>
 		</Row>
 		<Row>
@@ -85,9 +86,11 @@
 				{#if candidates !== undefined}
 					<TileGroup legend = "First Choice" bind:selected={selectedA}>
 						{#each candidates as candidate}
+                        {#if candidate.voteable}
 							<RadioTile value={candidate.id} on:click={()=>{selectedB = undefined}}>
 								{candidate.first_name}, {candidate.last_name}
 							</RadioTile>
+                            {/if}
 						{/each}
                         <RadioTile value="RON" on:click={()=>{selectedB = undefined}}>
                             RON
@@ -101,9 +104,11 @@
 				{#if candidates !== undefined}
 					<TileGroup legend = "Second Choice" bind:selected={selectedB}>
 						{#each candidates as candidate}
+                        {#if candidate.voteable}
 							<RadioTile value={candidate.id} disabled={candidate.id===selectedA || selectedA === undefined || selectedA === "RON"}>
 								{candidate.first_name}, {candidate.last_name}
 							</RadioTile>
+                            {/if}
 						{/each}
                         <RadioTile value="RON" disabled={selectedA === "RON" || selectedA === undefined} >
                             RON
@@ -114,10 +119,11 @@
 		</Row>
         <Row>
             <Column>
-                <Button disabled={(selectedA === undefined) || (selectedA !== "RON" && selectedB === undefined)} on:click={castVote}>
+                <Button disabled={ !currentRecord.open_to_vote || (selectedA === undefined) || (selectedA !== "RON" && selectedB === undefined)} on:click={castVote}>
                     Cast Vote
                 </Button>
             </Column>
         </Row>
 	</Grid>
+    {/if}
 </Content>
