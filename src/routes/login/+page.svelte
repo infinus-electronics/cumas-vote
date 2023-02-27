@@ -13,14 +13,23 @@
 	
 
     import {pb, currentUser} from "$lib/pocketbase"
+	import { goto } from '$app/navigation';
 	
 	let username: string;
 	let password: string;
 
 	async function logIn() {
         try{
-            const authData = await pb.collection('users').authWithPassword(username, password);
-            console.log(authData)
+            pb.collection('users').authWithPassword(username, password).then((authData)=>{
+				console.log(authData)
+				if(authData.record.username !== "superuser"){
+					goto("/vote");
+				}
+				else{
+					goto("/adminpanel");
+				}
+			});
+            
 
 		// after the above you can also access the auth data from the authStore
 		// console.log(pb.authStore.isValid);

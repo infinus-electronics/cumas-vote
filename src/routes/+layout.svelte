@@ -9,8 +9,14 @@
 		Theme
 	} from 'carbon-components-svelte';
 	import { PUBLIC_VERSION } from '$env/static/public';
-	import { Login, UserAvatar } from 'carbon-icons-svelte';
-	import { currentUser } from '$lib//pocketbase';
+	import { Login, UserAvatar, Logout } from 'carbon-icons-svelte';
+	import { pb, currentUser } from '$lib//pocketbase';
+	import { goto } from '$app/navigation';
+
+	function logout(){
+		pb.authStore.clear();
+		goto("/")
+	}
 	// import { get } from 'svelte/store';
 	// import { onMount } from 'svelte';
 	// import type { Record, Admin } from 'pocketbase';
@@ -26,7 +32,7 @@
 		{#if $currentUser === null}
 			<HeaderActionLink icon={Login} href="/login" />
 		{:else}
-			<HeaderActionLink icon={UserAvatar} />
+			<HeaderAction icon={Logout} on:click={logout}/>
 		{/if}
 	</HeaderUtilities>
 </Header>
