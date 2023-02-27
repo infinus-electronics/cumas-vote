@@ -12,11 +12,15 @@
 	import { Login, UserAvatar, Logout } from 'carbon-icons-svelte';
 	import { pb, currentUser } from '$lib//pocketbase';
 	import { goto } from '$app/navigation';
+	
+	// const currentStore = pb.authStore.loadFromCookie
 
 	function logout(){
 		pb.authStore.clear();
 		goto("/")
 	}
+
+	$: console.log(currentUser)
 	// import { get } from 'svelte/store';
 	// import { onMount } from 'svelte';
 	// import type { Record, Admin } from 'pocketbase';
