@@ -1,22 +1,12 @@
-# create-svelte
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+I dasuan use SvelteKit for the UI since I've messed around with Svelte the most, and it has excellent tooling in VSCode.
+
+Install the Svelte extension.
+
+For the UI components, I'm using https://carbon-components-svelte.onrender.com
+
+To run this project in dev mode:
 
 ```bash
 npm run dev
@@ -26,6 +16,8 @@ npm run dev -- --open
 ```
 
 ## Building
+
+I dunno what am I gonna use to deploy this yet, in the meantime if ur interested, this is the original gist:
 
 To create a production version of your app:
 
