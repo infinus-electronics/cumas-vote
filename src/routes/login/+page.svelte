@@ -38,12 +38,11 @@
         }
         catch(err){
 
-            
 			errorActive=true;
-			console.log(errorActive)
+			// console.log(errorActive)
 			if (err instanceof Error) errorMessage = err.message
   			else errorMessage = String(err)
-			console.log(err)
+			// console.log(err)
         }
 		
 	}
@@ -88,9 +87,10 @@
 				subtitle={errorMessage}
 				caption={new Date().toLocaleString()}
 				fullWidth={true}
+				lowContrast={true}
 				timeout={5000}
 				on:close={()=>{
-					console.log(close)
+					// console.log(close)
 					errorActive = false;
 				}}
 			  />
