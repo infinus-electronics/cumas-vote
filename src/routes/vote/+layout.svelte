@@ -48,7 +48,7 @@
 			<SideNavMenuItem
 				id={position.id}
 				isSelected={data.currentSelected === position.id}
-				href="/vote/{position.id}"
+				href="/vote/positions/{position.id}"
 				data-sveltekit-preload-data="tap">{position.title}</SideNavMenuItem
 			>
 		{/each}

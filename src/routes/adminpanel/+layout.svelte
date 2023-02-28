@@ -18,7 +18,7 @@
 </script>
 
 
-<SideNav bind:isOpen={$isSideBarOpenW}>
+<SideNav isOpen={$isSideBarOpenW}>
 	<SideNavItems>
 		<SideNavMenuItem href="/adminpanel/votingcontrol">Voting Control</SideNavMenuItem>
 	</SideNavItems>
