@@ -11,10 +11,34 @@
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, UserAvatar, Logout } from 'carbon-icons-svelte';
 	import { pb, currentUser } from '$lib//pocketbase';
-	import { goto } from '$app/navigation';
-	import { get } from 'svelte/store';
+	import { beforeNavigate, goto } from '$app/navigation';
+	// import { get } from 'svelte/store';
+	// import {writable} from 'svelte/store'
+	import {isSideBarOpenW} from "$lib//navBarStore"
 	
-	// const currentStore = pb.authStore.loadFromCookie
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+
+	let isSideNavOpen = true;
+	let innerWidth = 2048;
+	let isMobile: Boolean = false;
+
+	$: isMobile = innerWidth < 1056;
+
+
+	$: {
+		if (isMobile) {
+			// console.log(isMobile)
+			isSideBarOpenW.set(false);
+		} else {
+			isSideBarOpenW.set(true);
+		}
+		// console.log(isSideNavOpen);
+	}
+
+	$: isSideBarOpenW.set(isSideNavOpen)
+
 
 	function logout(){
 		pb.authStore.clear();
@@ -22,19 +46,11 @@
 	}
 
 
-	
-	
-	
-
-	// $: console.log(currentUser)
-	// import { get } from 'svelte/store';
-	// import { onMount } from 'svelte';
-	// import type { Record, Admin } from 'pocketbase';
-
-
 </script>
 
-<Header expandedByDefault={true}>
+<svelte:window bind:innerWidth />
+
+<Header company = {data.sudo ? "sudo" : ""} expandedByDefault={true} bind:isSideNavOpen={isSideNavOpen}>
 	<span slot="platform" class="platform-name">
 		CUMaS Voting System &nbsp;<code class="code-01">v{PUBLIC_VERSION || ''}</code>
 	</span>
