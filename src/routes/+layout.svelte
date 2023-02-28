@@ -12,20 +12,24 @@
 	import { Login, UserAvatar, Logout } from 'carbon-icons-svelte';
 	import { pb, currentUser } from '$lib//pocketbase';
 	import { beforeNavigate, goto } from '$app/navigation';
-	// import { get } from 'svelte/store';
-	// import {writable} from 'svelte/store'
 	import {isSideBarOpenW} from "$lib//navBarStore"
-	
-	import type { LayoutData } from './$types';
 
-	export let data: LayoutData;
+	let sudo = false;
+
+	currentUser.subscribe((currentUser)=>{
+		if (currentUser !== null){
+			sudo = (currentUser.role === "moderator")
+		}
+		else {
+			sudo = false
+		}
+	})
 
 	let isSideNavOpen = true;
 	let innerWidth = 2048;
 	let isMobile: Boolean = false;
 
 	$: isMobile = innerWidth < 1056;
-
 
 	$: {
 		if (isMobile) {
@@ -50,7 +54,7 @@
 
 <svelte:window bind:innerWidth />
 
-<Header company = {data.sudo ? "sudo" : ""} expandedByDefault={true} bind:isSideNavOpen={isSideNavOpen}>
+<Header company = {sudo ? "sudo" : ""} expandedByDefault={true} bind:isSideNavOpen={isSideNavOpen}>
 	<span slot="platform" class="platform-name">
 		CUMaS Voting System &nbsp;<code class="code-01">v{PUBLIC_VERSION || ''}</code>
 	</span>

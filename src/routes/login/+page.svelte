@@ -26,7 +26,7 @@
 	async function logIn() {
         try{
             const authData = await pb.collection('users').authWithPassword(username, password);
-				console.log(authData)
+				// console.log(authData)
 				if(authData.record.username !== "superuser"){
 					goto("/vote");
 				}
