@@ -34,7 +34,7 @@
 
 </script>
 
-<Header>
+<Header expandedByDefault={true}>
 	<span slot="platform" class="platform-name">
 		CUMaS Voting System &nbsp;<code class="code-01">v{PUBLIC_VERSION || ''}</code>
 	</span>
