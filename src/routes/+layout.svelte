@@ -54,7 +54,7 @@
 
 <svelte:window bind:innerWidth />
 
-<Header company = {sudo ? "sudo" : ""} expandedByDefault={true} bind:isSideNavOpen={isSideNavOpen}>
+<Header company = {sudo ? "sudo" : ""} expandedByDefault={true} bind:isSideNavOpen={isSideNavOpen} href="/">
 	<span slot="platform" class="platform-name">
 		CUMaS Voting System &nbsp;<code class="code-01">v{PUBLIC_VERSION || ''}</code>
 	</span>
