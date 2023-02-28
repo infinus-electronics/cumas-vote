@@ -31,7 +31,7 @@ import type { Handle } from '@sveltejs/kit'
 export const handle: Handle = async ({ event, resolve }) => {
   // before
   pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
-//   console.log(pb.authStore)
+  console.log("handle")
   if (pb.authStore.isValid) {
     try {
       await pb.collection('users').authRefresh()
