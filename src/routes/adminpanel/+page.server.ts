@@ -8,7 +8,8 @@ export async function load({locals}) {
     try{
         if(locals.user === null){
             throw redirect(302, "/login")
-        } else if (!(locals.user.role !== "moderator" || locals.user.role !== "admin")){
+        } else if (!(locals.user.role === "moderator" || locals.user.role === "admin")){
+            // console.log("here")
             throw redirect(302, "/vote")
         }
     }
