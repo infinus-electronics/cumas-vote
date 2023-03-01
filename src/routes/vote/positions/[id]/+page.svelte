@@ -8,7 +8,8 @@
 		RadioTile,
 		Row,
 		Tile,
-		TileGroup
+		TileGroup,
+		ToastNotification
 	} from 'carbon-components-svelte';
 
 	import { onMount, onDestroy } from 'svelte';
@@ -52,11 +53,16 @@
 
 	let selectedB: string | undefined;
 
+	let voted = false;
+	let voting = false;
+
 	function resetState() {
 		// console.log("here")
 
 		selectedA = undefined;
 		selectedB = undefined;
+		voted = false;
+		voting = false;
 	}
 
 	$: data.currentSelected, resetState();
@@ -86,6 +92,23 @@
 				// console.log(data)
 				pb.collection('polls').update(res.id, data);
 			});
+	}
+
+	async function sendVote() {
+		voting = true;
+		try {
+			
+			await castVote();
+			voting = false;
+			voted = true;
+		}
+		catch (err) {
+			
+			voting = false;
+			voted = true;
+			throw err;
+		}
+		
 	}
 
 	onDestroy(() => {
@@ -162,10 +185,44 @@
 						disabled={!openToVote ||
 							selectedA === undefined ||
 							(selectedA !== 'RON' && selectedB === undefined)}
-						on:click={castVote}
+						on:click={sendVote}
 					>
 						Cast Vote
 					</Button>
+				</Column>
+			</Row>
+			<Row>
+				<Column>
+					{#if voting === true}
+				<ToastNotification
+				kind='info'
+				title="Submitting vote"
+				subtitle={currentRecord.title}
+				caption={new Date().toLocaleString()}
+				fullWidth={true}
+				lowContrast={true}
+				timeout={5000}
+				on:close={()=>{
+					// console.log(close)
+					voting = false;
+				}}
+			  />
+			  {/if}
+					{#if voted === true}
+				<ToastNotification
+				kind='success'
+				title="Vote has been cast"
+				subtitle={currentRecord.title}
+				caption={new Date().toLocaleString()}
+				fullWidth={true}
+				lowContrast={true}
+				timeout={5000}
+				on:close={()=>{
+					// console.log(close)
+					voted = false;
+				}}
+			  />
+			  {/if}
 				</Column>
 			</Row>
 		</Grid>
