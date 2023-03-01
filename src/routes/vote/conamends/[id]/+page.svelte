@@ -43,7 +43,7 @@
 			
 		});
 
-	let choices: string[] = ["Yes", "No", "Pass"];
+	let choices: string[] = ["Yes", "No"];
 
 	let selected: string | undefined;
 

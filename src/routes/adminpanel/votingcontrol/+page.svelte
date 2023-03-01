@@ -14,58 +14,26 @@
 	import type { Record } from 'pocketbase';
 	import PollGraph from '../../../components/pollGraph.svelte';
 	import { Renew } from 'carbon-icons-svelte';
+	import type { PageData } from "./$types";
+	import { invalidateAll } from '$app/navigation';
+
+	export let data: PageData;
+
+
 	// import {Record[]} from "pocketbase";
 
 	let positions: Record[];
 	let conamends: Record[];
+	// let polls: Record[];
 	let selectedIndex: number = 0;
 	let selectedID: string;
 	let pollData = new Object();
 
 	onMount(() => {
-		pb.collection('positions')
-			.getFullList({
-		sort: '+sequence',
-	})
-			.then((res) => {
-				// console.log(res)
-				positions = res;
-			});
-		pb.collection('conamends')
-			.getFullList({
-		sort: '+sequence,title',
-	})
-			.then((res) => {
-				// console.log(res)
-				conamends = res;
-			});
-		pb.collection('polls')
-			.getFullList()
-			.then((res) => {
-				console.log(res);
-				// res.forEach((e,i)=>{
-				//     for (const [k, v] of Object.entries(e.vote)){
-				//         if(pollData[k]===undefined){
-				//             pollData[k] = new Object;
-				//         }
-				//         if(pollData[k][v['firstChoice']]===undefined){
-				//             pollData[k][v['firstChoice']]=1;
-				//         } else {
-				//             pollData[k][v['firstChoice']]++;
-				//         }
-				//         if(pollData[k][v['secondChoice']]===undefined){
-				//             pollData[k][v['secondChoice']]=1;
-				//         } else {
-				//             pollData[k][v['secondChoice']]++;
-				//         }
-				//     }
+		positions = data.positions;
+		conamends = data.conamends;
 
-				// })
-			});
-		pb.collection('polls').subscribe('*', function (e) {
-			console.log(e.record);
-		});
-	});
+	})
 </script>
 
 <Content>
@@ -75,7 +43,7 @@
 				<h1>Polls</h1>
 			</Column>
 			<Column sm={1} md={1} lg={1}>
-				<Button iconDescription="Refresh" icon={Renew} kind="tertiary" /></Column
+				<Button iconDescription="Refresh" icon={Renew} kind="tertiary" on:click={()=>{invalidateAll()}}/></Column
 			>
 		</Row>
 
