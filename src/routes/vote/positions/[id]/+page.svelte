@@ -68,9 +68,13 @@
 			.getFirstListItem(`user="${pb.authStore.model!.id}"`)
 			.then((res) => {
 				// console.log(res.vote);
-				let vote = res.vote;
+				let vote = structuredClone(res.vote);
+
+				if (vote.positions === undefined){
+                    vote.positions = {};
+                }
 				// console.log(JSON.parse(res.vote))
-				vote[currentRecord.title] = {
+				vote.positions[currentRecord.title] = {
 					firstChoice: selectedA,
 					secondChoice: selectedB
 				};
