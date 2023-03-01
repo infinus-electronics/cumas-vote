@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { pb } from '$lib//pocketbase';
 	import {
 		Button,
@@ -11,26 +11,21 @@
 		TileGroup
 	} from 'carbon-components-svelte';
 
-	import { onMount, onDestroy} from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
+	import type { PageData } from './$types';
+	import type { Record, RecordSubscription } from 'pocketbase';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+	export let data: PageData;
 
-	/**
-	 * @type {import('pocketbase').Record}
-	 */
-	export let currentRecord;
+	export let currentRecord: Record;
 
-	/**
-	 * @type {import('pocketbase').Record[]}
-	 */
-	export let candidates;
+	export let candidates: Record[];
 
 	let openToVote = true;
 
-	function setOpenToVote(e){
+	function setOpenToVote(e: boolean) {
 		openToVote = e;
-		console.log(e)
+		console.log(e);
 	}
 
 	$: pb.collection('positions')
@@ -38,7 +33,7 @@
 		.then((record) => {
 			// console.log(record);
 			currentRecord = record;
-			
+
 			pb.collection('positions').unsubscribe();
 			pb.collection('positions').subscribe(record.id, function (e) {
 				console.log(e.record);
@@ -53,14 +48,9 @@
 				});
 		});
 
-	/**
-	 * @type {string | undefined}
-	 */
-	let selectedA;
-	/**
-	 * @type {string |undefined}
-	 */
-	let selectedB;
+	let selectedA: string | undefined;
+
+	let selectedB: string | undefined;
 
 	function resetState() {
 		// console.log("here")
@@ -75,7 +65,7 @@
 		console.log(selectedA);
 		console.log(selectedB);
 		pb.collection('polls')
-			.getFirstListItem(`user="${pb.authStore.model.id}"`)
+			.getFirstListItem(`user="${pb.authStore.model!.id}"`)
 			.then((res) => {
 				console.log(res.vote);
 				let vote = res.vote;
@@ -86,7 +76,7 @@
 				};
 				console.log(vote);
 				let data = {
-					user: `${pb.authStore.model.id}`,
+					user: `${pb.authStore.model!.id}`,
 					vote: JSON.stringify(vote)
 				};
 				// console.log(data)
@@ -94,9 +84,9 @@
 			});
 	}
 
-    onDestroy(()=>{
-        pb.collection('positions').unsubscribe();
-    })
+	onDestroy(() => {
+		pb.collection('positions').unsubscribe();
+	});
 	// onMount(async()=>{
 	//     const record = await pb.collection('positions').getOne(data.currentSelected)
 	//     console.log(record)
@@ -165,7 +155,7 @@
 			<Row>
 				<Column>
 					<Button
-						disabled={!openToVote  ||
+						disabled={!openToVote ||
 							selectedA === undefined ||
 							(selectedA !== 'RON' && selectedB === undefined)}
 						on:click={castVote}

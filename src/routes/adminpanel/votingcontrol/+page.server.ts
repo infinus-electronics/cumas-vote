@@ -1,14 +1,16 @@
 import { redirect } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
+import type { PageServerLoad } from './$types';
+// import type { PageServerLoad } from './$types';
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load({locals}) {
+// /** @type {import('./$types').PageServerLoad} */
+export const load = (({locals}) => {
     // console.log('here')
     // console.log(locals.user)
     try{
-        if(locals.user.role === null){
+        if(locals.user?.role === null){
             throw redirect(302, "/login")
-        } else if (!(locals.user.role === "moderator" || locals.user.role === "admin")){
+        } else if (!(locals.user!.role === "moderator" || locals.user!.role === "admin")){
             throw redirect(302, "/vote")
         }
     }
@@ -16,4 +18,4 @@ export async function load({locals}) {
         throw(err)
     }
     
-}
+}) satisfies PageServerLoad

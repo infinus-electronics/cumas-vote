@@ -1,8 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
+import type { PageServerLoad } from './$types';
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load({locals}) {
+export const load = (({locals}) => {
     // console.log('here')
     // console.log(locals.user)
     try{
@@ -17,4 +17,4 @@ export async function load({locals}) {
         throw(err)
     }
     
-}
+}) satisfies PageServerLoad
