@@ -52,6 +52,14 @@
 				data-sveltekit-preload-data="tap">{position.title}</SideNavMenuItem
 			>
 		{/each}
+		{#each data.conamends as conamend}
+			<SideNavMenuItem
+				id={conamend.id}
+				isSelected={data.currentSelected === conamend.id}
+				href="/vote/conamends/{conamend.id}"
+				data-sveltekit-preload-data="tap">{conamend.title}</SideNavMenuItem
+			>
+		{/each}
 	</SideNavItems>
 </SideNav>
 

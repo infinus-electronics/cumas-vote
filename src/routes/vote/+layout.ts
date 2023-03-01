@@ -4,7 +4,12 @@ import type { LayoutLoad } from './$types';
 
 // /** @type {import('./$types').LayoutLoad} */
 export const load = (async ({ params }) => {
-	const records = await pb.collection('positions').getFullList();
-	// console.log(params.id);
-return { positions: records, currentSelected: params.id };
+	const positions = await pb.collection('positions').getFullList({
+		sort: '+sequence',
+	});
+	const conamends = await pb.collection('conamends').getFullList({
+		sort: '+sequence,title',
+	});
+	console.log(conamends)
+	return { positions: positions, conamends: conamends, currentSelected: params.id };
 }) satisfies LayoutLoad
