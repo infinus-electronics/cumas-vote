@@ -1,5 +1,7 @@
 ## Developing
 
+**Node version 17 and above required**
+
 I dasuan use SvelteKit for the UI since I've messed around with Svelte the most, and it has excellent tooling in VSCode.
 
 Install the Svelte extension.
@@ -13,6 +15,14 @@ npm run dev
 
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
+```
+
+### Environment variables
+
+The app in dev mode expects an environment variable file ```.env``` that contains the single line
+
+```
+PUBLIC_VERSION=0.5
 ```
 
 ## Building
