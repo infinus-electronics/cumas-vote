@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Column, Content, Grid, Row, Tabs, Tab, TabContent } from 'carbon-components-svelte';
+	import { Column, Content, Grid, Row, Tabs, Tab, TabContent, Button } from 'carbon-components-svelte';
 	import { pb } from '$lib//pocketbase';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
 	import PollGraph from '../../../components/pollGraph.svelte';
+	import {Renew} from "carbon-icons-svelte"
 	// import {Record[]} from "pocketbase";
 
 	let positions: Record[];
@@ -48,10 +49,20 @@
 </script>
 
 <Content>
-	{#if positions !== undefined}
-		<Grid>
-			<Row padding>
+	<Grid padding>
+	
+		<Row>
+			<Column>
+				<h1>Polls</h1>
+				
+			</Column>
+			<Column sm={1} md={1} lg={1}>
+				<Button iconDescription="Refresh" icon={Renew} kind="tertiary" ></Button></Column>
+		</Row>
+		
+			<Row>
 				<Column>
+					{#if positions !== undefined}
 					<Tabs bind:selected={selectedIndex}>
 						{#each positions as position}
 							<Tab label={position.title} />
@@ -66,8 +77,10 @@
 							{/each}
 						</svelte:fragment>
 					</Tabs>
+					{/if}
 				</Column>
 			</Row>
-		</Grid>
-	{/if}
+		
+	
+</Grid>
 </Content>

@@ -20,7 +20,7 @@
 
 <SideNav isOpen={$isSideBarOpenW}>
 	<SideNavItems>
-		<SideNavMenuItem href="/adminpanel/votingcontrol">Voting Control</SideNavMenuItem>
+		<SideNavMenuItem href="/adminpanel/votingcontrol">Polls</SideNavMenuItem>
 	</SideNavItems>
 </SideNav>
 
