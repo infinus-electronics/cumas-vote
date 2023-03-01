@@ -10,6 +10,6 @@ export const load = (async ({ params }) => {
 	const conamends = await pb.collection('conamends').getFullList({
 		sort: '+sequence,title',
 	});
-	console.log(conamends)
+	// console.log(conamends)
 	return { positions: positions, conamends: conamends, currentSelected: params.id };
 }) satisfies LayoutLoad

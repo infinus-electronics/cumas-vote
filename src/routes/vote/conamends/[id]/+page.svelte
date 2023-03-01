@@ -25,7 +25,7 @@
 
 	function setOpenToVote(e: boolean) {
 		openToVote = e;
-		console.log(e);
+		// console.log(e);
 	}
 
 	$: pb.collection('conamends')
@@ -36,7 +36,7 @@
 
 			pb.collection('conamends').unsubscribe();
 			pb.collection('conamends').subscribe(record.id, function (e) {
-				console.log(e.record);
+				// console.log(e.record);
 				setOpenToVote(e.record.open_to_vote);
 			});
 			setOpenToVote(record.open_to_vote);
@@ -54,19 +54,19 @@
 
 	$: data.currentSelected, resetState();
 
-	function castVote() {
-		console.log(selected);
+	async function castVote() {
+		// console.log(selected);
 
 		pb.collection('polls')
 			.getFirstListItem(`user="${pb.authStore.model!.id}"`)
 			.then((res) => {
-				console.log(res.vote);
+				// console.log(res.vote);
 				let vote = res.vote;
 				// console.log(JSON.parse(res.vote))
 				vote[currentRecord.title] = {
 					choice: selected
 				};
-				console.log(vote);
+				// console.log(vote);
 				let data = {
 					user: `${pb.authStore.model!.id}`,
 					vote: JSON.stringify(vote)
