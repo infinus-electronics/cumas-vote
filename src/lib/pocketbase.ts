@@ -17,3 +17,5 @@ export const pb = new PocketBase('https://vote.cumas.org')
 
 export const currentUser = writable(pb.authStore.model)
 
+export const key = Symbol()
+

@@ -27,11 +27,14 @@
 
 import { pb } from '$lib/pocketbase'
 import type { Handle } from '@sveltejs/kit'
+import uuid from "uuid";
 
-export const handle: Handle = async ({ event, resolve }) => {
+export const handle: Handle = async ({ event, resolve }) => { 
+  
   // before
   pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
-  console.log("handle")
+  // console.log(event.locals)
+  // console.log("handle")
   if (pb.authStore.isValid) {
     try {
       await pb.collection('users').authRefresh()
@@ -39,9 +42,11 @@ export const handle: Handle = async ({ event, resolve }) => {
       pb.authStore.clear()
     }
   }
-
+  
   event.locals.pb = pb
   event.locals.user = structuredClone(pb.authStore.model)
+
+  // console.log(event.locals.session)
 
   const response = await resolve(event)
 

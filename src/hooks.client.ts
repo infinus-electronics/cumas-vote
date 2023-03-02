@@ -1,6 +1,8 @@
 import { currentUser, pb } from '$lib/pocketbase'
 
 
+
+
 pb.authStore.loadFromCookie(document.cookie)
 // currentUser.set(pb.authStore.model)
 pb.authStore.onChange(() => {
