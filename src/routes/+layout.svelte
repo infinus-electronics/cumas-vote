@@ -27,6 +27,7 @@
 		currentUser: currentUser,
 		pb: pb
 	});
+	// log();
 	// setContext('module', pb);
 	onMount(() => {
 		
@@ -41,6 +42,8 @@
 	
 	let sudo = false;
 	let loggedIn = false;
+
+	// console.log(uuid1)
 
 	// $: if (data.localUser !== null) {
 	// 	loggedIn = true;

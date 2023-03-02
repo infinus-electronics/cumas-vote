@@ -31,6 +31,7 @@
 	const { currentUser, pb } = getContext(key)
 	currentUser.subscribe((currentUser) => {
 		if (currentUser !== null) {
+			// console.log(currentUser)
 			loggedIn = true;
 			sudo = currentUser.role === 'moderator';
 		} else {
