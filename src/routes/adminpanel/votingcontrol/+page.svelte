@@ -16,6 +16,7 @@
 	import { Renew } from 'carbon-icons-svelte';
 	import type { PageData } from "./$types";
 	import { invalidateAll } from '$app/navigation';
+	import type { K } from 'vitest/dist/types-71ccd11d';
 
 	export let data: PageData;
 
@@ -24,6 +25,8 @@
 
 	let positions: Record[];
 	let conamends: Record[];
+	let positionVotes: Map<String, Map<String, Number>>;
+	let conamendVotes: Map<String, Map<String, Number>>;
 	// let polls: Record[];
 	let selectedIndex: number = 0;
 	let selectedID: string;
@@ -32,6 +35,8 @@
 	onMount(() => {
 		positions = data.positions;
 		conamends = data.conamends;
+		positionVotes = data.voteResults.get("positions") || new Map()
+		conamendVotes = data.voteResults.get("conamends") || new Map()
 
 	})
 </script>
@@ -65,7 +70,9 @@
 					<svelte:fragment slot="content">
 						{#if positions !== undefined}
 							{#each positions as position}
-								<TabContent />
+								<TabContent>
+									{positionVotes.get(position.title)}
+								</TabContent>
 							{/each}
 						{/if}
 						{#if conamends !== undefined}

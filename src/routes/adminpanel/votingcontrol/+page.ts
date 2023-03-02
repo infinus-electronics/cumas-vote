@@ -2,11 +2,14 @@ import { pb } from '$lib//pocketbase';
 import type { PageLoad } from './$types';
 import type { Record } from 'pocketbase';
 
+// type voteMapElementType = Map<String, Number>
+
 export const load = (async () => {
 	let positions: Record[];
 	let conamends: Record[];
 	let polls: Record[];
 	let runners: Record[];
+    let names = new Map();
 
 	// console.log("load")
 
@@ -22,11 +25,17 @@ export const load = (async () => {
 
 	//begin processing data here
 	let voteResults = new Map([
-		['positions', new Map()],
-		['conamends', new Map()]
+		['positions', new Map<String, Map<String, number>>()],
+		['conamends', new Map<String, Map<String, number>>()]
 	]);
 
+
+
 	try {
+        runners.forEach((e)=>{
+            names.set(e.id, e.first_name.concat(", ").concat(e.last_name))
+        })
+        console.log(names)
 		positions.forEach(async (pos, i) => {
 			// console.log("positions")
 			let positionMap = voteResults.get('positions');
@@ -57,7 +66,7 @@ export const load = (async () => {
 				for (const [role, choice] of Object.entries(votePos)) {
 					let currentRole = positionMap?.get(role);
 					let currentVal = currentRole?.get(choice);
-					currentRole?.set(choice, currentVal + 1);
+					currentRole?.set(choice, currentVal! + 1);
 				}
 			}
 			if (thisVote.conamends !== null) {
@@ -66,7 +75,7 @@ export const load = (async () => {
                 for (const [ca, choice] of Object.entries(voteCA)) {
 					let currentCA = caMap?.get(ca);
 					let currentVal = currentCA?.get(choice);
-					currentCA?.set(choice, currentVal + 1);
+					currentCA?.set(choice, currentVal! + 1);
 				}
 
 			}
@@ -80,6 +89,8 @@ export const load = (async () => {
 	return {
 		positions: positions,
 		conamends: conamends,
-		polls: polls
+		polls: polls,
+        voteResults: voteResults,
+        names: names,
 	};
 }) satisfies PageLoad;
