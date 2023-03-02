@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { key } from '$lib//pocketbase';
+	import { key, type contextStore } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -21,7 +21,7 @@
 
 	export let currentRecord: Record;
 
-    const { currentUser, pb } = getContext(key)
+    const { currentUser, pb } = getContext(key) satisfies contextStore;
 
 	// export let candidates: Record[];
 

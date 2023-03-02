@@ -18,10 +18,11 @@
 	// import { isSideBarOpenW } from '$lib//navBarStore';
 	import type { LayoutData } from './$types';
 	import { getContext } from 'svelte';
+	import type {contextStore} from "$lib/pocketbase"
 
 	export let data: LayoutData;
 
-	const { currentUser, pb, isSideBarOpenW } = getContext(key)
+	const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
 
 	function logout() {
 		pb.authStore.clear();

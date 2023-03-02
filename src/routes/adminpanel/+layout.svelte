@@ -10,13 +10,13 @@
 		SideNavItems,
 		SideNavMenuItem
 	} from 'carbon-components-svelte';
-	import { key } from '$lib//pocketbase';
+	import { key, type contextStore } from '$lib//pocketbase';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, Logout } from 'carbon-icons-svelte';
 	// import { isSideBarOpenW } from '$lib//navBarStore';
 	import { getContext } from 'svelte';
 
-	const { currentUser, pb, isSideBarOpenW } = getContext(key)
+	const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
 </script>
 
 <SideNav isOpen={$isSideBarOpenW}>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { key } from '$lib//pocketbase';
+	import { key, type contextStore } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -18,7 +18,7 @@
 	import { error } from '@sveltejs/kit';
 	import { get } from 'svelte/store';
 
-	const { currentUser, pb } = getContext(key);
+	const { currentUser, pb } = getContext(key) satisfies contextStore;
 
 	export let data: PageData;
 
