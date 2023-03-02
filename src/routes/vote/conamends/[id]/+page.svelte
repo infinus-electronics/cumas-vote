@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { currentUser, pb } from '$lib//pocketbase';
+	import { key } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -12,7 +12,7 @@
 		ToastNotification
 	} from 'carbon-components-svelte';
 
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, getContext } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Record, RecordSubscription } from 'pocketbase';
 	import { get } from 'svelte/store';
@@ -20,6 +20,8 @@
 	export let data: PageData;
 
 	export let currentRecord: Record;
+
+    const { currentUser, pb } = getContext(key)
 
 	// export let candidates: Record[];
 

@@ -12,7 +12,7 @@
 		Tile
 	} from 'carbon-components-svelte';
 	// import { currentUser, pb } from '$lib//pocketbase';
-	import { key, pb } from '$lib//pocketbase';
+	import { key } from '$lib//pocketbase';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, Logout } from 'carbon-icons-svelte';
 	import { isSideBarOpenW } from '$lib//navBarStore';
@@ -21,7 +21,7 @@
 
 	export let data: LayoutData;
 
-	const currentUser = data.localUser;
+	const { currentUser, pb } = getContext(key)
 
 	function logout() {
 		pb.authStore.clear();
@@ -51,7 +51,7 @@
 		<div class="username">
 			<p>Welcome</p>
 
-			<h3>{currentUser?.username}</h3>
+			<h3>{$currentUser?.username}</h3>
 		</div>
 
 		<SideNavDivider />

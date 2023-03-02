@@ -25,11 +25,15 @@
 //     return response;
 // }
 
-import { pb } from '$lib/pocketbase'
+// import { pb } from '$lib/pocketbase'
+import PocketBase from "pocketbase"
 import type { Handle } from '@sveltejs/kit'
 import uuid from "uuid";
 
+const pb = new PocketBase("https://vote.cumas.org")
 export const handle: Handle = async ({ event, resolve }) => { 
+
+  
   
   // before
   pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
@@ -55,6 +59,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     'set-cookie',
     pb.authStore.exportToCookie({ httpOnly: false })
   )
+
 
   return response
 }

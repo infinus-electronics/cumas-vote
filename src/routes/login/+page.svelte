@@ -13,9 +13,12 @@
 	} from 'carbon-components-svelte';
 	
 
-    import {pb, currentUser} from "$lib/pocketbase"
+    import {key} from "$lib/pocketbase"
 	import { goto } from '$app/navigation';
 	import { error } from '@sveltejs/kit';
+	import { getContext } from 'svelte';
+
+	const { currentUser, pb } = getContext(key)
 	
 	let username: string;
 	let password: string;

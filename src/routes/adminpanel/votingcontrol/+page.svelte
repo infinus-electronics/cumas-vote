@@ -9,7 +9,7 @@
 		TabContent,
 		Button
 	} from 'carbon-components-svelte';
-	import { pb } from '$lib//pocketbase';
+	// import { pb } from '$lib//pocketbase';
 	import { onMount } from 'svelte';
 	import type { Record } from 'pocketbase';
 	import PollGraph from '../../../components/pollGraph.svelte';

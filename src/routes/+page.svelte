@@ -12,7 +12,7 @@
 	} from 'carbon-components-svelte';
 	import { ButtonFlushLeft } from 'carbon-icons-svelte';
 	import { getContext, onMount } from 'svelte';
-	import {key, currentUser, pb} from "$lib/pocketbase"
+	import {key} from "$lib/pocketbase"
 	import { get } from 'svelte/store';
 	import CumasLogo from '../components/CumasLogo.svelte';
 	import type {PageData} from "./$types";
@@ -21,23 +21,23 @@
 	let sudo = false;
 	let loggedIn = false;
 
-	$: if (data.localUser !== null) {
-		loggedIn = true;
-		sudo = data.localUser.role === "moderator"
-	} else {
-			loggedIn = false;
-			sudo = false;
-		}
-	// const { currentUser, pb } = getContext(key)
-	// currentUser.subscribe((currentUser) => {
-	// 	if (currentUser !== null) {
-	// 		loggedIn = true;
-	// 		sudo = currentUser.role === 'moderator';
-	// 	} else {
+	// $: if (data.localUser !== null) {
+	// 	loggedIn = true;
+	// 	sudo = data.localUser.role === "moderator"
+	// } else {
 	// 		loggedIn = false;
 	// 		sudo = false;
 	// 	}
-	// });
+	const { currentUser, pb } = getContext(key)
+	currentUser.subscribe((currentUser) => {
+		if (currentUser !== null) {
+			loggedIn = true;
+			sudo = currentUser.role === 'moderator';
+		} else {
+			loggedIn = false;
+			sudo = false;
+		}
+	});
 
 	function logout() {
 		pb.authStore.clear();

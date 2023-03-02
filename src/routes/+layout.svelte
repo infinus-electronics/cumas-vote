@@ -13,46 +13,51 @@
 	import { pb, key } from '$lib//pocketbase';
 	import { beforeNavigate, goto } from '$app/navigation';
 	import { isSideBarOpenW } from '$lib//navBarStore';
-	// import { setContext } from 'svelte';
+	import { setContext } from 'svelte';
 	import { onMount } from 'svelte';
 	import type {LayoutData} from "./$types"
+	import { writable } from 'svelte/store';
 
 
 	export let data: LayoutData;
 
-	// setContext(key, {
-	// 	currentUser: currentUser,
-	// 	pb: pb
-	// });
+	const currentUser = writable(pb.authStore.model)
+
+	setContext(key, {
+		currentUser: currentUser,
+		pb: pb
+	});
 	// setContext('module', pb);
-	// onMount(() => {
+	onMount(() => {
 		
-	// 	pb.authStore.loadFromCookie(document.cookie);
-	// 	// currentUser.set(pb.authStore.model)
-	// 	pb.authStore.onChange(() => {
-	// 		currentUser.set(pb.authStore.model);
-	// 		document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
-	// 		console.log('authChanged');
-	// 	});
-	// });
+		pb.authStore.loadFromCookie(document.cookie);
+		// currentUser.set(pb.authStore.model)
+		pb.authStore.onChange(() => {
+			currentUser.set(pb.authStore.model);
+			document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+			console.log('authChanged');
+		});
+	});
 	
 	let sudo = false;
 	let loggedIn = false;
 
-	$: if (data.localUser !== null) {
-		loggedIn = true;
-		sudo = data.localUser.role === "moderator"
-	} else {
+	// $: if (data.localUser !== null) {
+	// 	loggedIn = true;
+	// 	sudo = data.localUser.role === "moderator"
+	// } else {
+	// 		loggedIn = false;
+	// 		sudo = false;
+	// 	}
+	currentUser.subscribe((currentUser) => {
+		if (currentUser !== null) {
+			loggedIn = true;
+			sudo = currentUser.role === 'moderator';
+		} else {
 			loggedIn = false;
 			sudo = false;
 		}
-	// currentUser.subscribe((currentUser) => {
-	// 	if (currentUser !== null) {
-	// 		sudo = currentUser.role === 'moderator';
-	// 	} else {
-	// 		sudo = false;
-	// 	}
-	// });
+	});
 
 	let isSideNavOpen = true;
 	let innerWidth = 2048;
