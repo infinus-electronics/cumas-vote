@@ -6,8 +6,10 @@
 		HeaderActionLink,
 		HeaderUtilities,
 		SideNav,
+		SideNavDivider,
 		SideNavItems,
-		SideNavMenuItem
+		SideNavMenuItem,
+		Tile
 	} from 'carbon-components-svelte';
 	import { currentUser, pb } from '$lib//pocketbase';
 	import { PUBLIC_VERSION } from '$env/static/public';
@@ -16,8 +18,6 @@
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
-
-
 
 	function logout() {
 		pb.authStore.clear();
@@ -44,6 +44,13 @@
 
 <SideNav isOpen={$isSideBarOpenW}>
 	<SideNavItems>
+		<div class="username">
+			<p>Welcome</p>
+
+			<h3>{$currentUser?.username}</h3>
+		</div>
+
+		<SideNavDivider />
 		{#each data.positions as position}
 			<SideNavMenuItem
 				id={position.id}
@@ -64,3 +71,22 @@
 </SideNav>
 
 <slot />
+
+<style>
+	div.username {
+		outline: 2px solid rgba(0, 0, 0, 0);
+		outline-offset: -2px;
+		font-size: 0.875rem;
+		font-weight: 600;
+		line-height: 1.28572;
+		letter-spacing: 0.16px;
+		position: relative;
+		display: flex;
+		flex-flow: column;
+		min-height: 2rem;
+		align-items: start;
+		padding: 0 1rem;
+		text-decoration: none;
+		overflow: hidden;
+	}
+</style>

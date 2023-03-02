@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pb } from '$lib//pocketbase';
+	import { currentUser, pb } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -15,6 +15,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Record, RecordSubscription } from 'pocketbase';
+	import { get } from 'svelte/store';
 
 	export let data: PageData;
 
@@ -65,8 +66,10 @@
 	async function castVote() {
 		// console.log(selected);
 
+        const user = get(currentUser)
+
 		await pb.collection('polls')
-			.getFirstListItem(`user="${pb.authStore.model!.id}"`)
+			.getFirstListItem(`user="${user!.id}"`)
 			.then(async (res) => {
 				// console.log(res.vote);
 				let vote = structuredClone(res.vote);
@@ -74,12 +77,10 @@
                     vote.conamends = {};
                 }
 				// console.log(JSON.parse(res.vote))
-				vote.conamends[currentRecord.title] = {
-					choice: selected
-				};
+				vote.conamends[currentRecord.title] = selected;
 				// console.log(vote);
 				let data = {
-					user: `${pb.authStore.model!.id}`,
+					user: `${user!.id}`,
 					vote: JSON.stringify(vote)
 				};
 				// console.log(data)

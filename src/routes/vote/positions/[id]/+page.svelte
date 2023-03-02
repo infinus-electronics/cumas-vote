@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pb } from '$lib//pocketbase';
+	import { currentUser, pb } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -16,6 +16,7 @@
 	import type { PageData } from './$types';
 	import type { Record, RecordSubscription } from 'pocketbase';
 	import { error } from '@sveltejs/kit';
+	import { get } from 'svelte/store';
 
 	export let data: PageData;
 
@@ -52,7 +53,7 @@
 
 	let selectedA: string | undefined;
 
-	let selectedB: string | undefined;
+	// let selectedB: string | undefined;
 
 	let voted = false;
 	let voting = false;
@@ -62,7 +63,7 @@
 		// console.log("here")
 
 		selectedA = undefined;
-		selectedB = undefined;
+		// selectedB = undefined;
 		voted = false;
 		voting = false;
 		errorActive = false;
@@ -73,10 +74,11 @@
 	async function castVote() {
 		// console.log(selectedA);
 		// console.log(selectedB);
+		const user = get(currentUser)
 
 		await pb
 			.collection('polls')
-			.getFirstListItem(`user="${pb.authStore.model!.id}"`)
+			.getFirstListItem(`user="${user!.id}"`)
 			.then(async (res) => {
 				// console.log(res.vote);
 				let vote = structuredClone(res.vote);
@@ -85,13 +87,10 @@
 					vote.positions = {};
 				}
 				// console.log(JSON.parse(res.vote))
-				vote.positions[currentRecord.title] = {
-					firstChoice: selectedA,
-					secondChoice: selectedB
-				};
+				vote.positions[currentRecord.title] = selectedA;
 				// console.log(vote);
 				let data = {
-					user: `${pb.authStore.model!.id}`,
+					user: `${user!.id}`,
 					vote: JSON.stringify(vote)
 				};
 				// console.log(data)
@@ -135,13 +134,13 @@
 			<Row>
 				<Column>
 					{#if candidates !== undefined}
-						<TileGroup legend="First Choice" bind:selected={selectedA}>
+						<TileGroup bind:selected={selectedA}>
 							{#each candidates as candidate}
 								{#if candidate.voteable}
 									<RadioTile
 										value={candidate.id}
 										on:click={() => {
-											selectedB = undefined;
+											
 										}}
 									>
 										{candidate.first_name}, {candidate.last_name}
@@ -151,7 +150,7 @@
 							<RadioTile
 								value="RON"
 								on:click={() => {
-									selectedB = undefined;
+									
 								}}
 							>
 								RON
@@ -160,7 +159,7 @@
 					{/if}
 				</Column>
 			</Row>
-			<Row>
+			<!-- <Row>
 				<Column>
 					{#if candidates !== undefined}
 						<TileGroup legend="Second Choice" bind:selected={selectedB}>
@@ -182,13 +181,13 @@
 						</TileGroup>
 					{/if}
 				</Column>
-			</Row>
+			</Row> -->
 			<Row>
 				<Column>
 					<Button
 						disabled={!openToVote ||
-							selectedA === undefined ||
-							(selectedA !== 'RON' && selectedB === undefined)}
+							selectedA === undefined							
+							}
 						on:click={sendVote}
 					>
 						Cast Vote
