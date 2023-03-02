@@ -12,6 +12,9 @@
 
     import PocketBase from 'pocketbase'
 import { writable } from 'svelte/store'
+// import {v4} from "uuid"
+
+// console.log(v4())
 
 
 export const pb = new PocketBase('https://vote.cumas.org')

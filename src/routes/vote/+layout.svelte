@@ -15,13 +15,13 @@
 	import { key } from '$lib//pocketbase';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, Logout } from 'carbon-icons-svelte';
-	import { isSideBarOpenW } from '$lib//navBarStore';
+	// import { isSideBarOpenW } from '$lib//navBarStore';
 	import type { LayoutData } from './$types';
 	import { getContext } from 'svelte';
 
 	export let data: LayoutData;
 
-	const { currentUser, pb } = getContext(key)
+	const { currentUser, pb, isSideBarOpenW } = getContext(key)
 
 	function logout() {
 		pb.authStore.clear();

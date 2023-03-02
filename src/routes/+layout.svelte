@@ -25,7 +25,8 @@
 
 	setContext(key, {
 		currentUser: currentUser,
-		pb: pb
+		pb: pb,
+		isSideBarOpenW: isSideBarOpenW,
 	});
 	// log();
 	// setContext('module', pb);
