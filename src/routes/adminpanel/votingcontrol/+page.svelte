@@ -71,7 +71,7 @@
 						{#if positions !== undefined}
 							{#each positions as position}
 								<TabContent>
-									{positionVotes.get(position.title)}
+									{String(positionVotes.get(position.title))}
 								</TabContent>
 							{/each}
 						{/if}
