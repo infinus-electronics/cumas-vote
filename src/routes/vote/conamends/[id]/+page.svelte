@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pb } from '$lib//pocketbase';
+	import { key, type contextStore } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -8,16 +8,20 @@
 		RadioTile,
 		Row,
 		Tile,
-		TileGroup
+		TileGroup,
+		ToastNotification
 	} from 'carbon-components-svelte';
 
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, getContext } from 'svelte';
 	import type { PageData } from './$types';
 	import type { Record, RecordSubscription } from 'pocketbase';
+	import { get } from 'svelte/store';
 
 	export let data: PageData;
 
 	export let currentRecord: Record;
+
+    const { currentUser, pb } = getContext(key) satisfies contextStore;
 
 	// export let candidates: Record[];
 
@@ -43,13 +47,20 @@
 			
 		});
 
-	let choices: string[] = ["Yes", "No", "Pass"];
+	let choices: string[] = ["Yes", "No"];
 
 	let selected: string | undefined;
+
+    let voted = false;
+	let voting = false;
+	let errorActive = false;
 
 	function resetState() {
 		// console.log("here")
 		selected = undefined;
+        voted = false;
+		voting = false;
+		errorActive = false;
 	}
 
 	$: data.currentSelected, resetState();
@@ -57,26 +68,41 @@
 	async function castVote() {
 		// console.log(selected);
 
-		pb.collection('polls')
-			.getFirstListItem(`user="${pb.authStore.model!.id}"`)
-			.then((res) => {
+        const user = get(currentUser)
+
+		await pb.collection('polls')
+			.getFirstListItem(`user="${user!.id}"`)
+			.then(async (res) => {
 				// console.log(res.vote);
 				let vote = structuredClone(res.vote);
                 if (vote.conamends === undefined){
                     vote.conamends = {};
                 }
 				// console.log(JSON.parse(res.vote))
-				vote.conamends[currentRecord.title] = {
-					choice: selected
-				};
+				vote.conamends[currentRecord.title] = selected;
 				// console.log(vote);
 				let data = {
-					user: `${pb.authStore.model!.id}`,
+					user: `${user!.id}`,
 					vote: JSON.stringify(vote)
 				};
 				// console.log(data)
-				pb.collection('polls').update(res.id, data);
+				await pb.collection('polls').update(res.id, data);
 			});
+	}
+
+    async function sendVote() {
+		voting = true;
+		try {
+			await castVote();
+
+			voting = false;
+			voted = true;
+		} catch (err) {
+			voting = false;
+			voted = false;
+			errorActive = true;
+			throw err;
+		}
 	}
 
 	onDestroy(() => {
@@ -126,10 +152,59 @@
 					<Button
 						disabled={!openToVote ||
 							selected === undefined}
-						on:click={castVote}
+						on:click={sendVote}
 					>
 						Cast Vote
 					</Button>
+				</Column>
+			</Row>
+            <Row>
+				<Column>
+					{#if errorActive === true}
+						<ToastNotification
+							kind="error"
+							title="Error submitting vote"
+							subtitle={currentRecord.title}
+							caption={new Date().toLocaleString()}
+							fullWidth={true}
+							lowContrast={true}
+							timeout={5000}
+							on:close={() => {
+								// console.log(close)
+								errorActive = false;
+							}}
+						/>
+					{/if}
+					{#if voting === true}
+						<ToastNotification
+							kind="info"
+							title="Submitting vote"
+							subtitle={currentRecord.title}
+							caption={new Date().toLocaleString()}
+							fullWidth={true}
+							lowContrast={true}
+							timeout={5000}
+							on:close={() => {
+								// console.log(close)
+								voting = false;
+							}}
+						/>
+					{/if}
+					{#if voted === true}
+						<ToastNotification
+							kind="success"
+							title="Vote has been cast"
+							subtitle={currentRecord.title}
+							caption={new Date().toLocaleString()}
+							fullWidth={true}
+							lowContrast={true}
+							timeout={5000}
+							on:close={() => {
+								// console.log(close)
+								voted = false;
+							}}
+						/>
+					{/if}
 				</Column>
 			</Row>
 		</Grid>

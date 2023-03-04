@@ -3,7 +3,6 @@ import PocketBase from 'pocketbase';
 import type { satisfies } from 'semver';
 import type { PageServerLoad } from './$types';
 
-
 export const load = (({locals}) => {
     // console.log('here')
     // console.log(locals.user)

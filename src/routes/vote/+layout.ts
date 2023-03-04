@@ -1,9 +1,11 @@
 import { pb } from '$lib//pocketbase';
 import type { satisfies } from 'semver';
 import type { LayoutLoad } from './$types';
+// import { getContext } from 'svelte';
 
 // /** @type {import('./$types').LayoutLoad} */
 export const load = (async ({ params }) => {
+	// const {pb} = getContext(key)
 	const positions = await pb.collection('positions').getFullList({
 		sort: '+sequence',
 	});

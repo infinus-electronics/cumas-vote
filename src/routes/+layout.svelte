@@ -10,20 +10,58 @@
 	} from 'carbon-components-svelte';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, UserAvatar, Logout } from 'carbon-icons-svelte';
-	import { pb, currentUser } from '$lib//pocketbase';
+	import { pb, key } from '$lib//pocketbase';
 	import { beforeNavigate, goto } from '$app/navigation';
-	import {isSideBarOpenW} from "$lib//navBarStore"
+	import { isSideBarOpenW } from '$lib//navBarStore';
+	import { setContext } from 'svelte';
+	import { onMount } from 'svelte';
+	import type {LayoutData} from "./$types"
+	import { writable } from 'svelte/store';
 
+
+	export let data: LayoutData;
+
+	const currentUser = writable(pb.authStore.model)
+
+	setContext(key, {
+		currentUser: currentUser,
+		pb: pb,
+		isSideBarOpenW: isSideBarOpenW,
+	});
+	// log();
+	// setContext('module', pb);
+	onMount(() => {
+		
+		pb.authStore.loadFromCookie(document.cookie);
+		// currentUser.set(pb.authStore.model)
+		pb.authStore.onChange(() => {
+			currentUser.set(pb.authStore.model);
+			document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+			console.log('authChanged');
+		});
+	});
+	
 	let sudo = false;
+	let loggedIn = false;
 
-	currentUser.subscribe((currentUser)=>{
-		if (currentUser !== null){
-			sudo = (currentUser.role === "moderator")
+	// console.log(uuid1)
+
+	// $: if (data.localUser !== null) {
+	// 	loggedIn = true;
+	// 	sudo = data.localUser.role === "moderator"
+	// } else {
+	// 		loggedIn = false;
+	// 		sudo = false;
+	// 	}
+	currentUser.subscribe((currentUser) => {
+		if (currentUser !== null) {
+			loggedIn = true;
+			sudo = currentUser.role === 'moderator';
+		} else {
+			loggedIn = false;
+			sudo = false;
 		}
-		else {
-			sudo = false
-		}
-	})
+	});
 
 	let isSideNavOpen = true;
 	let innerWidth = 2048;
@@ -41,28 +79,25 @@
 		// console.log(isSideNavOpen);
 	}
 
-	$: isSideBarOpenW.set(isSideNavOpen)
+	$: isSideBarOpenW.set(isSideNavOpen);
 
-
-	function logout(){
+	function logout() {
 		pb.authStore.clear();
-		goto("/")
+		goto('/');
 	}
-
-
 </script>
 
 <svelte:window bind:innerWidth />
 
-<Header company = {sudo ? "sudo" : ""} expandedByDefault={true} bind:isSideNavOpen={isSideNavOpen} href="/">
+<Header company={sudo ? 'sudo' : ''} expandedByDefault={true} bind:isSideNavOpen href="/">
 	<span slot="platform" class="platform-name">
 		CUMaS Voting System &nbsp;<code class="code-01">v{PUBLIC_VERSION || ''}</code>
 	</span>
 	<HeaderUtilities>
-		{#if $currentUser === null}
+		{#if loggedIn === false}
 			<HeaderActionLink icon={Login} href="/login" />
 		{:else}
-			<HeaderAction icon={Logout} on:click={logout}/>
+			<HeaderAction icon={Logout} on:click={logout} />
 		{/if}
 	</HeaderUtilities>
 </Header>
