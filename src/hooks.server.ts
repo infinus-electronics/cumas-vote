@@ -36,6 +36,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.pb = new PocketBase("https://vote.cumas.org")
   
   // before
+  // console.log(event.request.headers.get('cookie'))
   event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
   // console.log(event.locals)
   console.log("handle")
@@ -55,7 +56,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   const response = await resolve(event)
 
   // after
-  response.headers.append(
+  response.headers.set(
     'set-cookie',
     event.locals.pb.authStore.exportToCookie()
   )
