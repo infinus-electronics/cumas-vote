@@ -1,1 +1,2 @@
-import { writable } from "svelte/store";
+export const prerender = false
+export const ssr = true

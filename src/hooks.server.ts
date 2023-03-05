@@ -30,34 +30,34 @@ import PocketBase from "pocketbase"
 import type { Handle } from '@sveltejs/kit'
 import uuid from "uuid";
 
-const pb = new PocketBase("https://vote.cumas.org")
 export const handle: Handle = async ({ event, resolve }) => { 
 
   
+  event.locals.pb = new PocketBase("https://vote.cumas.org")
   
   // before
-  pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
+  event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
   // console.log(event.locals)
-  // console.log("handle")
-  if (pb.authStore.isValid) {
+  console.log("handle")
+  if (event.locals.pb.authStore.isValid) {
     try {
-      await pb.collection('users').authRefresh()
+      await event.locals.pb.collection('users').authRefresh()
     } catch (_) {
-      pb.authStore.clear()
+      event.locals.pb.authStore.clear()
     }
   }
   
-  event.locals.pb = pb
-  event.locals.user = structuredClone(pb.authStore.model)
+  // event.locals.pb = pb
+  // event.locals.user = structuredClone(event.locals.pb.authStore.model)
 
   // console.log(event.locals.session)
 
   const response = await resolve(event)
 
   // after
-  response.headers.set(
+  response.headers.append(
     'set-cookie',
-    pb.authStore.exportToCookie({ httpOnly: false })
+    event.locals.pb.authStore.exportToCookie()
   )
 
 

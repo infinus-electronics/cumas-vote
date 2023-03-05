@@ -13,36 +13,56 @@
 	import { pb, key } from '$lib//pocketbase';
 	import { beforeNavigate, goto } from '$app/navigation';
 	import { isSideBarOpenW } from '$lib//navBarStore';
-	import { setContext } from 'svelte';
+	import { onDestroy, setContext } from 'svelte';
 	import { onMount } from 'svelte';
 	import type {LayoutData} from "./$types"
-	import { writable } from 'svelte/store';
+	import { get, writable } from 'svelte/store';
 
 
 	export let data: LayoutData;
+	let sudo = false;
+	let loggedIn = false;
 
-	const currentUser = writable(pb.authStore.model)
+	const currentUser = writable(pb.authStore.model);
+
 
 	setContext(key, {
 		currentUser: currentUser,
 		pb: pb,
 		isSideBarOpenW: isSideBarOpenW,
 	});
+
+	
+
+	
 	// log();
 	// setContext('module', pb);
 	onMount(() => {
-		
+
 		pb.authStore.loadFromCookie(document.cookie);
-		// currentUser.set(pb.authStore.model)
-		pb.authStore.onChange(() => {
-			currentUser.set(pb.authStore.model);
-			document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
-			console.log('authChanged');
-		});
+		currentUser.set(pb.authStore.model);
+		console.log(get(currentUser))		
+		
+		// console.log("mount")
+		if (pb.authStore.model !== null) {
+			loggedIn = true;
+			sudo = pb.authStore.model.role === 'moderator';
+		} else {
+			loggedIn = false;
+			sudo = false;
+		}
+
+		const unsubPB = pb.authStore.onChange(() => {
+		currentUser.set(pb.authStore.model);
+		document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+		console.log('authChanged');
+	});
+
+		
+	
 	});
 	
-	let sudo = false;
-	let loggedIn = false;
+	
 
 	// console.log(uuid1)
 
@@ -53,7 +73,7 @@
 	// 		loggedIn = false;
 	// 		sudo = false;
 	// 	}
-	currentUser.subscribe((currentUser) => {
+	const unsubscribe = currentUser.subscribe((currentUser) => {
 		if (currentUser !== null) {
 			loggedIn = true;
 			sudo = currentUser.role === 'moderator';
@@ -62,6 +82,11 @@
 			sudo = false;
 		}
 	});
+
+	onDestroy(()=> {
+		unsubscribe();
+		// console.log(unsubPB);
+	})
 
 	let isSideNavOpen = true;
 	let innerWidth = 2048;
