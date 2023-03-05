@@ -1,5 +1,5 @@
-export const ssr = false;
-export const csr = true;
+export const ssr = true;
+export const csr = false;
 // import { satisfies } from "semver";
 import type { PageLoad } from "./$types";
 // /** @type {import('./$types').PageLoad} */

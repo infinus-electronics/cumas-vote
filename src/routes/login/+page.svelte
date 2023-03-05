@@ -13,12 +13,13 @@
 	} from 'carbon-components-svelte';
 	
 
-    import {key, type contextStore} from "$lib/pocketbase"
+    import {pb, currentUser} from "$lib/pocketbase"
 	import { goto } from '$app/navigation';
 	import { error } from '@sveltejs/kit';
 	import { getContext } from 'svelte';
+	import { applyAction, enhance } from '$app/forms';
 
-	const { currentUser, pb } = getContext(key) satisfies contextStore;
+	// const { currentUser, pb } = getContext(key) satisfies contextStore;
 	
 	let username: string;
 	let password: string;
@@ -62,17 +63,18 @@
 		<Row>
 			<Column>
 				<FluidForm
-					on:submit={() => {
-						logIn();
-					}}
+					method="POST"
+					
+					
 				>
-					<TextInput labelText="CRSid" placeholder="cumas94" required bind:value={username} />
+					<TextInput labelText="CRSid" type="id" name="id" placeholder="cumas94" required />
 					<PasswordInput
 						required
+						name= "password"
 						type="password"
 						labelText="Password"
 						placeholder="Enter password..."
-						bind:value={password}
+						
 					/>
 					<Row>
 						<Column>

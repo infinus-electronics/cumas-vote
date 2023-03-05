@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { key, type contextStore } from "$lib//pocketbase";
+	import { key, type contextStore, currentUser,pb } from "$lib//pocketbase";
 	import { getContext } from "svelte";
 
 
-    const { currentUser, pb } = getContext(key) satisfies contextStore
+    // const { currentUser, pb } = getContext(key) satisfies contextStore
 
     currentUser.set(null);
     document.cookie = ""

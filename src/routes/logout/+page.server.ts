@@ -1,8 +1,10 @@
-// import type { satisfies } from "semver";
-import { redirect } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import { redirect } from '@sveltejs/kit'
+import type { Actions } from './$types'
 
-export const load = (({locals}) => {
+export const actions: Actions = {
+  default: async ({ locals }) => {
     locals.pb.authStore.clear()
-    throw redirect(300, "/")
-}) satisfies PageServerLoad
+    locals.user = null
+    throw redirect(303, '/')
+  },
+}

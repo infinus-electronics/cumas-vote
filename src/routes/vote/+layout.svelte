@@ -12,17 +12,17 @@
 		Tile
 	} from 'carbon-components-svelte';
 	// import { currentUser, pb } from '$lib//pocketbase';
-	import { key } from '$lib//pocketbase';
+	import { key, currentUser, pb } from '$lib//pocketbase';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, Logout } from 'carbon-icons-svelte';
-	// import { isSideBarOpenW } from '$lib//navBarStore';
+	import { isSideBarOpenW } from '$lib//navBarStore';
 	import type { LayoutData } from './$types';
 	import { getContext } from 'svelte';
 	import type {contextStore} from "$lib/pocketbase"
 
 	export let data: LayoutData;
 
-	const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
+	// const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
 
 	function logout() {
 		pb.authStore.clear();
