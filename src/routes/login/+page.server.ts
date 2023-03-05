@@ -16,7 +16,7 @@ export const actions: Actions = {
         .collection('users')
         .authWithPassword(data.id, data.password)
         if(authData.record === null){
-            throw redirect(303, "/");
+            throw redirect(303, "/login");
         }
         else if(authData.record.username !== "superuser"){
             throw redirect(303, "/vote");
@@ -27,8 +27,7 @@ export const actions: Actions = {
          
     } catch (e) {
       console.error(e)
-
-      throw redirect(303, "/login")
+    //   throw redirect(303, "/login")
     }
 
     throw redirect(303, '/')
