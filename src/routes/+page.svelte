@@ -12,7 +12,7 @@
 	} from 'carbon-components-svelte';
 	import { ButtonFlushLeft } from 'carbon-icons-svelte';
 	import { getContext, onMount } from 'svelte';
-	import {key, type contextStore} from "$lib/pocketbase"
+	import {pb, currentUser} from "$lib/pocketbase"
 	import { get } from 'svelte/store';
 	import CumasLogo from '../components/CumasLogo.svelte';
 	import type {PageData} from "./$types";
@@ -28,8 +28,8 @@
 	// 		loggedIn = false;
 	// 		sudo = false;
 	// 	}
-	const { currentUser, pb } = getContext(key) satisfies contextStore
-	
+	// const { currentUser, pb } = getContext(key) satisfies contextStore
+
 	currentUser.subscribe((currentUser) => {
 		if (currentUser !== null) {
 			// console.log(currentUser)

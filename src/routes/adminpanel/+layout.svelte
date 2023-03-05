@@ -10,13 +10,13 @@
 		SideNavItems,
 		SideNavMenuItem
 	} from 'carbon-components-svelte';
-	import { key, type contextStore } from '$lib//pocketbase';
+	import { key, type contextStore, pb, currentUser } from '$lib//pocketbase';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, Logout } from 'carbon-icons-svelte';
-	// import { isSideBarOpenW } from '$lib//navBarStore';
+	import { isSideBarOpenW } from '$lib//navBarStore';
 	import { getContext } from 'svelte';
 
-	const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
+	// const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
 </script>
 
 <SideNav isOpen={$isSideBarOpenW}>
@@ -29,6 +29,8 @@
 
 		<SideNavDivider />
 		<SideNavMenuItem href="/adminpanel/votingcontrol">Polls</SideNavMenuItem>
+		<SideNavMenuItem href="/adminpanel/candidatecontrol">Candidates</SideNavMenuItem>
+		<SideNavMenuItem href="/adminpanel/positioncontrol">Positions</SideNavMenuItem>
 	</SideNavItems>
 </SideNav>
 

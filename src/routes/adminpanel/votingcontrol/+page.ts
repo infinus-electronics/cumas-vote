@@ -2,6 +2,9 @@ import { pb } from '$lib//pocketbase';
 import type { PageLoad } from './$types';
 import type { Record } from 'pocketbase';
 
+export const ssr = false;
+export const csr = true;
+
 // type voteMapElementType = Map<String, Number>
 
 export const load = (async () => {
@@ -35,7 +38,7 @@ export const load = (async () => {
         runners.forEach((e)=>{
             names.set(e.id, e.first_name.concat(", ").concat(e.last_name))
         })
-        console.log(names)
+        // console.log(names)
 		positions.forEach(async (pos, i) => {
 			// console.log("positions")
 			let positionMap = voteResults.get('positions');
@@ -84,7 +87,7 @@ export const load = (async () => {
 		throw err;
 	}
 
-	console.log(voteResults);
+	// console.log(voteResults);
 
 	return {
 		positions: positions,

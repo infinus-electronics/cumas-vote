@@ -14,8 +14,9 @@
 	import type { Record } from 'pocketbase';
 	import PollGraph from '../../../components/pollGraph.svelte';
 	import { Renew } from 'carbon-icons-svelte';
-	import type { PageData } from "./$types";
+	import type { PageData, PageServerData } from "./$types";
 	import { invalidateAll } from '$app/navigation';
+	import VoteResultDisplay from './VoteResultDisplay.svelte';
 
 
 	export let data: PageData;
@@ -25,6 +26,7 @@
 
 	let positions: Record[];
 	let conamends: Record[];
+	let names: Map<String, String>;
 	let positionVotes: Map<String, Map<String, Number>>;
 	let conamendVotes: Map<String, Map<String, Number>>;
 	// let polls: Record[];
@@ -37,6 +39,7 @@
 		conamends = data.conamends;
 		positionVotes = data.voteResults.get("positions") || new Map()
 		conamendVotes = data.voteResults.get("conamends") || new Map()
+		names = data.names || new Map();
 
 	})
 </script>
@@ -71,7 +74,7 @@
 						{#if positions !== undefined}
 							{#each positions as position}
 								<TabContent>
-									{String(positionVotes.get(position.title))}
+									<VoteResultDisplay data={positionVotes.get(position.title)} names={names}></VoteResultDisplay>
 								</TabContent>
 							{/each}
 						{/if}

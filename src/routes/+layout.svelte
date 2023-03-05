@@ -10,7 +10,7 @@
 	} from 'carbon-components-svelte';
 	import { PUBLIC_VERSION } from '$env/static/public';
 	import { Login, UserAvatar, Logout } from 'carbon-icons-svelte';
-	import { pb, key } from '$lib//pocketbase';
+	import { pb, currentUser, key } from '$lib//pocketbase';
 	import { beforeNavigate, goto } from '$app/navigation';
 	import { isSideBarOpenW } from '$lib//navBarStore';
 	import { onDestroy, setContext } from 'svelte';
@@ -23,14 +23,14 @@
 	let sudo = false;
 	let loggedIn = false;
 
-	const currentUser = writable(pb.authStore.model);
+	// const currentUser = writable(pb.authStore.model);
 
 
-	setContext(key, {
-		currentUser: currentUser,
-		pb: pb,
-		isSideBarOpenW: isSideBarOpenW,
-	});
+	// setContext(key, {
+	// 	currentUser: currentUser,
+	// 	pb: pb,
+	// 	isSideBarOpenW: isSideBarOpenW,
+	// });
 
 	
 
@@ -41,9 +41,9 @@
 
 		pb.authStore.loadFromCookie(document.cookie);
 		currentUser.set(pb.authStore.model);
-		console.log(get(currentUser))		
+	// 	console.log(get(currentUser))		
 		
-		// console.log("mount")
+	// 	// console.log("mount")
 		if (pb.authStore.model !== null) {
 			loggedIn = true;
 			sudo = pb.authStore.model.role === 'moderator';
@@ -52,11 +52,11 @@
 			sudo = false;
 		}
 
-		const unsubPB = pb.authStore.onChange(() => {
-		currentUser.set(pb.authStore.model);
-		document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
-		console.log('authChanged');
-	});
+	// 	pb.authStore.onChange(() => {
+	// 	currentUser.set(pb.authStore.model);
+	// 	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+	// 	console.log('authChanged');
+	// });
 
 		
 	
@@ -122,7 +122,7 @@
 		{#if loggedIn === false}
 			<HeaderActionLink icon={Login} href="/login" />
 		{:else}
-			<HeaderAction icon={Logout} on:click={logout} />
+			<HeaderActionLink icon={Logout} href="/logout"  />
 		{/if}
 	</HeaderUtilities>
 </Header>

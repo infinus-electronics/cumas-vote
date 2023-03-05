@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { key, type contextStore } from '$lib//pocketbase';
+	import { key, type contextStore, currentUser, pb } from '$lib//pocketbase';
 	import {
 		Button,
 		Column,
@@ -21,7 +21,7 @@
 
 	export let currentRecord: Record;
 
-    const { currentUser, pb } = getContext(key) satisfies contextStore;
+    // const { currentUser, pb } = getContext(key) satisfies contextStore;
 
 	// export let candidates: Record[];
 
@@ -106,7 +106,7 @@
 	}
 
 	onDestroy(() => {
-		pb.collection('positions').unsubscribe();
+		pb.collection('conamends').unsubscribe();
 	});
 	// onMount(async()=>{
 	//     const record = await pb.collection('positions').getOne(data.currentSelected)
