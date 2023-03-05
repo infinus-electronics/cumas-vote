@@ -2,6 +2,9 @@ import { pb } from '$lib//pocketbase';
 import type { PageLoad } from './$types';
 import type { Record } from 'pocketbase';
 
+// export const ssr = false;
+// export const csr = true;
+
 // type voteMapElementType = Map<String, Number>
 
 export const load = (async () => {

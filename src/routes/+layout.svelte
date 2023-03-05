@@ -52,7 +52,7 @@
 			sudo = false;
 		}
 
-		const unsubPB = pb.authStore.onChange(() => {
+		pb.authStore.onChange(() => {
 		currentUser.set(pb.authStore.model);
 		document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
 		console.log('authChanged');
@@ -122,7 +122,7 @@
 		{#if loggedIn === false}
 			<HeaderActionLink icon={Login} href="/login" />
 		{:else}
-			<HeaderAction icon={Logout} on:click={logout} />
+			<HeaderActionLink icon={Logout} href="/logout"  />
 		{/if}
 	</HeaderUtilities>
 </Header>

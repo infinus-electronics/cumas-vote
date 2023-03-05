@@ -75,7 +75,6 @@
 							{#each positions as position}
 								<TabContent>
 									<VoteResultDisplay data={positionVotes.get(position.title)} names={names}></VoteResultDisplay>
-									 {String(positionVotes.get(position.title))}
 								</TabContent>
 							{/each}
 						{/if}
