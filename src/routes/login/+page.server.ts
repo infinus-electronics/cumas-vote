@@ -11,7 +11,7 @@ export const actions: Actions = {
     // console.log(data)
 
 
-    try {
+    
         const authData = await locals.pb
         .collection('users')
         .authWithPassword(data.id, data.password)
@@ -22,14 +22,11 @@ export const actions: Actions = {
             throw redirect(302, "/vote");
         }
         else{
-            throw redirect(307, "/adminpanel");
+            throw redirect(302, "/adminpanel");
         }
          
-    } catch (e) {
-      console.error(e)
-    //   throw redirect(303, "/login")
-    }
+   
 
-    throw redirect(302, '/')
+    // throw redirect(302, '/')
   },
 }

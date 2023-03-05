@@ -30,6 +30,7 @@
 		<SideNavDivider />
 		<SideNavMenuItem href="/adminpanel/votingcontrol">Polls</SideNavMenuItem>
 		<SideNavMenuItem href="/adminpanel/candidatecontrol">Candidates</SideNavMenuItem>
+		<SideNavMenuItem href="/adminpanel/positioncontrol">Positions</SideNavMenuItem>
 	</SideNavItems>
 </SideNav>
 

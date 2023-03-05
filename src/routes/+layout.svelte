@@ -39,18 +39,18 @@
 	// setContext('module', pb);
 	onMount(() => {
 
-	// 	pb.authStore.loadFromCookie(document.cookie);
-	// 	currentUser.set(pb.authStore.model);
+		pb.authStore.loadFromCookie(document.cookie);
+		currentUser.set(pb.authStore.model);
 	// 	console.log(get(currentUser))		
 		
 	// 	// console.log("mount")
-	// 	if (pb.authStore.model !== null) {
-	// 		loggedIn = true;
-	// 		sudo = pb.authStore.model.role === 'moderator';
-	// 	} else {
-	// 		loggedIn = false;
-	// 		sudo = false;
-	// 	}
+		if (pb.authStore.model !== null) {
+			loggedIn = true;
+			sudo = pb.authStore.model.role === 'moderator';
+		} else {
+			loggedIn = false;
+			sudo = false;
+		}
 
 	// 	pb.authStore.onChange(() => {
 	// 	currentUser.set(pb.authStore.model);

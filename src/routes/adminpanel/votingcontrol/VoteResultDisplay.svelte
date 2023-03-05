@@ -5,8 +5,8 @@
 	export let names: Map<String, String>;
 
 	let num = data?.size;
-	let numRows = parseInt(num / 4);
-	console.log(data);
+	// let numRows = parseInt(num / 4);
+	// console.log(data);
 </script>
 
 <Grid condensed>

@@ -1,7 +1,5 @@
 import { currentUser, pb } from '$lib/pocketbase'
-
-
-
+console.log("client started")
 
 pb.authStore.loadFromCookie(document.cookie)
 // currentUser.set(pb.authStore.model)
