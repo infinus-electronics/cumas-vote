@@ -26,10 +26,10 @@
 		disabled = true;
 		// console.log(update")
 		Object.keys(candidateToggles).forEach(async (element) => {
-			console.log(candidateTogglesOld[element])
-			console.log(candidateToggles[element])
+			// console.log(candidateTogglesOld[element])
+			// console.log(candidateToggles[element])
 			if(candidateToggles[element] !== candidateTogglesOld[element]){
-				console.log(element)
+				// console.log(element)
 				const original = await pb.collection('candidates').getOne(element);
 				await pb.collection('candidates').update(element, {
 					"first_name" : original.first_name,

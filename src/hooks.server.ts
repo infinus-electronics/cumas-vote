@@ -29,11 +29,12 @@
 import PocketBase from "pocketbase"
 import type { Handle } from '@sveltejs/kit'
 import uuid from "uuid";
+import {POCKETBASE_URL} from "$env/static/private"
 
 export const handle: Handle = async ({ event, resolve }) => { 
 
   
-  event.locals.pb = new PocketBase("https://vote.cumas.org")
+  event.locals.pb = new PocketBase(POCKETBASE_URL)
   
   // before
   // console.log(event.request.headers.get('cookie'))

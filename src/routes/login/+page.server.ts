@@ -16,13 +16,13 @@ export const actions: Actions = {
         .collection('users')
         .authWithPassword(data.id, data.password)
         if(authData.record === null){
-            throw redirect(303, "/login");
+            throw redirect(302, "/login");
         }
         else if(authData.record.username !== "superuser"){
-            throw redirect(303, "/vote");
+            throw redirect(302, "/vote");
         }
         else{
-            throw redirect(303, "/adminpanel");
+            throw redirect(307, "/adminpanel");
         }
          
     } catch (e) {
@@ -30,6 +30,6 @@ export const actions: Actions = {
     //   throw redirect(303, "/login")
     }
 
-    throw redirect(303, '/')
+    throw redirect(302, '/')
   },
 }

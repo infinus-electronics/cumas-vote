@@ -13,6 +13,7 @@
 import PocketBase, { Admin, Record } from 'pocketbase'
 import { writable } from 'svelte/store'
 import type {Writable} from "svelte/store"
+import {POCKETBASE_URL} from "$env/static/private"
 
 export type contextStore = {
     currentUser: Writable<Record | Admin | null>,
@@ -24,7 +25,7 @@ export type contextStore = {
 // console.log(v4())
 
 
-export const pb = new PocketBase('https://vote.cumas.org')
+export const pb = new PocketBase(POCKETBASE_URL)
 
 export const currentUser = writable(pb.authStore.model)
 
