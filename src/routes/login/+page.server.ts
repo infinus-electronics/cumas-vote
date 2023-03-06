@@ -18,11 +18,11 @@ export const actions: Actions = {
         if(authData.record === null){
             throw redirect(302, "/login");
         }
-        else if(authData.record.username !== "superuser"){
-            throw redirect(302, "/vote");
+        else if(authData.record.username === "superuser"){
+            throw redirect(302, "/adminpanel");
         }
         else{
-            throw redirect(302, "/adminpanel");
+            throw redirect(302, "/vote");
         }
          
    
