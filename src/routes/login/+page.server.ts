@@ -18,7 +18,7 @@ export const actions: Actions = {
         if(authData.record === null){
             throw redirect(302, "/login");
         }
-        else if(authData.record.username === "superuser"){
+        else if(authData.record.role === "moderator" || authData.record.role === "admin"){
             throw redirect(302, "/adminpanel");
         }
         else{
