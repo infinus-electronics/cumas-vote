@@ -2,6 +2,7 @@ import { pb } from '$lib//pocketbase';
 import type { PageLoad } from './$types';
 import type { Record } from 'pocketbase';
 
+export const prerender = false
 export const ssr = false;
 export const csr = true;
 

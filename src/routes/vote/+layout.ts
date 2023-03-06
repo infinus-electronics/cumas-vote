@@ -1,3 +1,7 @@
+export const prerender = false
+export const ssr = false;
+export const csr = true;
+
 import { pb } from '$lib//pocketbase';
 import type { satisfies } from 'semver';
 import type { LayoutLoad } from './$types';

@@ -17,7 +17,7 @@
 	import { Login, Logout } from 'carbon-icons-svelte';
 	import { isSideBarOpenW } from '$lib//navBarStore';
 	import type { LayoutData } from './$types';
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type {contextStore} from "$lib/pocketbase"
 
 	export let data: LayoutData;
@@ -28,6 +28,8 @@
 		pb.authStore.clear();
 		goto('/');
 	}
+
+		
 
 	// console.log("layout rerender")
 </script>

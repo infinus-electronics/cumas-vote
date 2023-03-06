@@ -1,3 +1,4 @@
+
 import { redirect } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
 import type { satisfies } from 'semver';

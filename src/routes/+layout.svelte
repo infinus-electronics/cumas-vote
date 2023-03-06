@@ -43,7 +43,7 @@
 		currentUser.set(pb.authStore.model);
 	// 	console.log(get(currentUser))		
 		
-	// 	// console.log("mount")
+		console.log("mount")
 		if (pb.authStore.model !== null) {
 			loggedIn = true;
 			sudo = pb.authStore.model.role === 'moderator';
@@ -52,10 +52,10 @@
 			sudo = false;
 		}
 
-	// 	pb.authStore.onChange(() => {
-	// 	currentUser.set(pb.authStore.model);
-	// 	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
-	// 	console.log('authChanged');
+		// pb.authStore.onChange(() => {
+		// currentUser.set(pb.authStore.model);
+		// document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
+		// console.log('authChanged');
 	// });
 
 		
@@ -83,10 +83,10 @@
 		}
 	});
 
-	onDestroy(()=> {
-		unsubscribe();
-		// console.log(unsubPB);
-	})
+	// onDestroy(()=> {
+	// 	unsubscribe();
+	// 	// console.log(unsubPB);
+	// })
 
 	let isSideNavOpen = true;
 	let innerWidth = 2048;
