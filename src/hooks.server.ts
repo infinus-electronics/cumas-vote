@@ -58,6 +58,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   // after
   response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({httpOnly: false}));
+  response.headers.set(
+		'Permissions-Policy',
+		'accelerometer=(), autoplay=(), camera=(), document-domain=(), encrypted-media=(), fullscreen=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), sync-xhr=(), usb=(), xr-spatial-tracking=(), geolocation=()'
+	);
 
 
   return response
