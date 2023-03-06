@@ -40,7 +40,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   // console.log(event.request.headers.get('cookie'))
   event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
   // console.log(event.locals)
-  console.log("handle")
+  // console.log("handle")
   if (event.locals.pb.authStore.isValid) {
     try {
       await event.locals.pb.collection('users').authRefresh()
