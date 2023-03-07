@@ -94,7 +94,7 @@ export const load = (async () => {
 		throw err;
 	}
 
-	console.log(voteResults);
+	// console.log(voteResults);
 
 	return {
 		positions: positions,
