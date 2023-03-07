@@ -17,6 +17,7 @@
 	import type { PageData, PageServerData } from "./$types";
 	import { invalidateAll } from '$app/navigation';
 	import VoteResultDisplay from './VoteResultDisplay.svelte';
+	import ConAmendResultDisplay from './ConAmendResultDisplay.svelte';
 
 
 	export let data: PageData;
@@ -80,7 +81,10 @@
 						{/if}
 						{#if conamends !== undefined}
 							{#each conamends as conamend}
-								<TabContent />
+								<TabContent>
+									<ConAmendResultDisplay data={conamendVotes.get(conamend.title)}></ConAmendResultDisplay>
+								</TabContent>
+								
 							{/each}
 						{/if}
 					</svelte:fragment>

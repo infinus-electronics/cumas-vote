@@ -67,20 +67,26 @@ export const load = (async () => {
 			if (thisVote.positions !== null) {
 				const votePos: Object = thisVote.positions || null;
 				let positionMap = voteResults.get('positions');
-				for (const [role, choice] of Object.entries(votePos)) {
-					let currentRole = positionMap?.get(role);
-					let currentVal = currentRole?.get(choice);
-					currentRole?.set(choice, currentVal! + 1);
+				if(votePos !== null){
+					for (const [role, choice] of Object.entries(votePos)) {
+						let currentRole = positionMap?.get(role);
+						let currentVal = currentRole?.get(choice);
+						currentRole?.set(choice, currentVal! + 1);
+					}
 				}
+				
 			}
 			if (thisVote.conamends !== null) {
 				const voteCA: Object = thisVote.conamends || null;
                 let caMap = voteResults.get("conamends");
-                for (const [ca, choice] of Object.entries(voteCA)) {
-					let currentCA = caMap?.get(ca);
-					let currentVal = currentCA?.get(choice);
-					currentCA?.set(choice, currentVal! + 1);
+				if (voteCA !== null){
+					for (const [ca, choice] of Object.entries(voteCA)) {
+						let currentCA = caMap?.get(ca);
+						let currentVal = currentCA?.get(choice);
+						currentCA?.set(choice, currentVal! + 1);
+					}
 				}
+                
 
 			}
 		});
@@ -88,7 +94,7 @@ export const load = (async () => {
 		throw err;
 	}
 
-	// console.log(voteResults);
+	console.log(voteResults);
 
 	return {
 		positions: positions,
