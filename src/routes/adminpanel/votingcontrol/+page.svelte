@@ -35,14 +35,15 @@
 	let selectedID: string;
 	let pollData = new Object();
 
-	onMount(() => {
-		positions = data.positions;
+	
+	$:{	positions = data.positions;
 		conamends = data.conamends;
 		positionVotes = data.voteResults.get("positions") || new Map()
 		conamendVotes = data.voteResults.get("conamends") || new Map()
 		names = data.names || new Map();
+	}
 
-	})
+	
 </script>
 
 <Content>
