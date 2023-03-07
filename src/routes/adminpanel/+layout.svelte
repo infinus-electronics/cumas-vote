@@ -31,6 +31,7 @@
 		<SideNavMenuItem href="/adminpanel/votingcontrol">Polls</SideNavMenuItem>
 		<SideNavMenuItem href="/adminpanel/candidatecontrol">Candidates</SideNavMenuItem>
 		<SideNavMenuItem href="/adminpanel/positioncontrol">Positions</SideNavMenuItem>
+		<SideNavMenuItem href="/adminpanel/adminutils">Utilities</SideNavMenuItem>
 	</SideNavItems>
 </SideNav>
 

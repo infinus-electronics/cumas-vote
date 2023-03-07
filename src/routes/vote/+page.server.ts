@@ -6,8 +6,8 @@ import type { PageServerLoad } from './$types';
 
 export const load = (({locals}) => {
     // console.log('here')
-    console.log(locals.pb.authStore.model!.id)
-    if(locals.pb.authStore.model!.id === null){
+    // console.log(locals.pb.authStore.model!.id)
+    if(locals.pb.authStore.model === null){
         throw redirect(302, "/login")
     }
     // catch (err) {
