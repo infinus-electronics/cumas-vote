@@ -3,9 +3,15 @@
 	import {
 		Button,
 		Column,
+		ComposedModal,
 		Content,
 		Grid,
 		Modal,
+		ModalBody,
+		ModalFooter,
+		ModalHeader,
+		NumberInput,
+		ProgressBar,
 		Row,
 		StructuredList,
 		StructuredListBody,
@@ -16,6 +22,8 @@
 	import type { Record } from 'pocketbase';
 	import { onMount } from 'svelte';
 	import { get_custom_elements_slots } from 'svelte/internal';
+	import { v4 } from 'uuid';
+	import {unparse} from "papaparse";
 
 	let users: Record[];
 	let polls: Record[];
@@ -23,9 +31,14 @@
 	let missingPollCard: number;
 	let disabled = false;
 	let resetModalOpen = false;
+	let createUsersOpen = false;
+	let createNewUsersNum = 0;
+
 
 	const fetchData = async () => {
-		users = await pb.collection('users').getFullList();
+		users = await pb.collection('users').getFullList({
+			filter: "role='user'"
+		});
 		polls = await pb.collection('polls').getFullList();
 		usersWithoutPolls = [];
 		missingPollCard = 0;
@@ -58,6 +71,7 @@
 				vote: '{ }'
 			});
 		}
+		await fetchData();
 		disabled = false;
 	};
 	const resetPolls = async () => {
@@ -74,7 +88,47 @@
 				vote: '{ }'
 			});
 		}
+		await fetchData();
 		disabled = false;
+	};
+
+	const createUsers = async (n: number) => {
+		disabled = true;
+		let userData:Object[] = [];
+		// console.log(n);
+		for (let k = 0; k < n; k++) {
+			let username = Math.random().toString(36).substring(2,10);
+			let password = v4();
+			userData.push({
+				username: username,
+				password: password
+			})
+			await pb.collection('users').create({
+				username: username,				
+				password: password,
+				passwordConfirm: password,
+				role: 'user',
+				verified:true
+			});
+		}
+		let csv = unparse(userData);
+		// console.log(csv)
+		const blob = new Blob([csv]);
+		let link = document.createElement("a");
+    if (link.download !== undefined) {
+      // Browsers that support HTML5 download attribute
+      const url = URL.createObjectURL(blob);
+	  const timestamp = new Date().toLocaleString();
+      link.setAttribute("href", url);
+      link.setAttribute("download", `users ${timestamp}.csv`);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+		await fetchData();
+		disabled = false;
+		createUsersOpen = false;
 	};
 </script>
 
@@ -146,6 +200,16 @@
 				</Button>
 			</Column>
 		</Row>
+		<Row>
+			<Column>
+				<Button
+					on:click={() => {
+						createUsersOpen = true;
+					}}
+					bind:disabled>Create new users</Button
+				>
+			</Column>
+		</Row>
 	</Grid>
 	<Modal
 		danger
@@ -158,4 +222,23 @@
 	>
 		<p>This is a permanent action and cannot be undone.</p>
 	</Modal>
+	<ComposedModal
+		bind:open={createUsersOpen}
+		on:click:button--primary={() => {
+			createUsers(createNewUsersNum);
+		}}
+	>
+		<ModalHeader label="Admin Utilities" title="Create New Users" />
+		<ModalBody>			
+			<NumberInput label="Number of new users to create" bind:value={createNewUsersNum} />
+		</ModalBody>
+		<ModalFooter
+			primaryButtonText="Create Users"
+			primaryButtonDisabled={createNewUsersNum === 0 || disabled}
+			secondaryButtonText="Cancel"
+			on:click:button--secondary={({ detail }) => {
+				createUsersOpen = false;
+			}}
+		/>
+	</ComposedModal>
 </Content>

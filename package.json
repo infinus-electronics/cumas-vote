@@ -19,6 +19,7 @@
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-node": "^1.2.1",
 		"@sveltejs/kit": "^1.5.0",
+		"@types/papaparse": "^5.3.7",
 		"@types/uuid": "^9.0.1",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
@@ -40,6 +41,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"papaparse": "^5.4.0",
 		"pocketbase": "^0.11.1",
 		"uuid": "^9.0.0"
 	}
