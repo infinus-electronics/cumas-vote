@@ -23,7 +23,7 @@
 	import { onMount } from 'svelte';
 	import { get_custom_elements_slots } from 'svelte/internal';
 	import { v4 } from 'uuid';
-	import {unparse} from "papaparse";
+	import { unparse } from 'papaparse';
 
 	let users: Record[];
 	let polls: Record[];
@@ -33,7 +33,6 @@
 	let resetModalOpen = false;
 	let createUsersOpen = false;
 	let createNewUsersNum = 0;
-
 
 	const fetchData = async () => {
 		users = await pb.collection('users').getFullList({
@@ -94,38 +93,38 @@
 
 	const createUsers = async (n: number) => {
 		disabled = true;
-		let userData:Object[] = [];
+		let userData: Object[] = [];
 		// console.log(n);
 		for (let k = 0; k < n; k++) {
-			let username = Math.random().toString(36).substring(2,10);
+			let username = Math.random().toString(36).substring(2, 10);
 			let password = v4();
 			userData.push({
 				username: username,
 				password: password
-			})
+			});
 			await pb.collection('users').create({
-				username: username,				
+				username: username,
 				password: password,
 				passwordConfirm: password,
 				role: 'user',
-				verified:true
+				verified: true
 			});
 		}
 		let csv = unparse(userData);
 		// console.log(csv)
 		const blob = new Blob([csv]);
-		let link = document.createElement("a");
-    if (link.download !== undefined) {
-      // Browsers that support HTML5 download attribute
-      const url = URL.createObjectURL(blob);
-	  const timestamp = new Date().toLocaleString();
-      link.setAttribute("href", url);
-      link.setAttribute("download", `users ${timestamp}.csv`);
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+		let link = document.createElement('a');
+		if (link.download !== undefined) {
+			// Browsers that support HTML5 download attribute
+			const url = URL.createObjectURL(blob);
+			const timestamp = new Date().toLocaleString();
+			link.setAttribute('href', url);
+			link.setAttribute('download', `users ${timestamp}.csv`);
+			link.style.visibility = 'hidden';
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		}
 		await fetchData();
 		disabled = false;
 		createUsersOpen = false;
@@ -143,37 +142,39 @@
 			<Column>
 				<h2>Stats</h2>
 				<Row>
-					{#await fetchedData}
-						Fetching data...
-					{:then data}
-						<StructuredList>
-							<StructuredListHead>
-								<StructuredListRow head>
-									<StructuredListCell head>Stat</StructuredListCell>
-									<StructuredListCell head>Value</StructuredListCell>
+					<Column>
+						{#await fetchedData}
+							Fetching data...
+						{:then data}
+							<StructuredList>
+								<StructuredListHead>
+									<StructuredListRow head>
+										<StructuredListCell head>Stat</StructuredListCell>
+										<StructuredListCell head>Value</StructuredListCell>
+									</StructuredListRow>
+								</StructuredListHead>
+								<StructuredListRow>
+									<StructuredListCell>Number of users</StructuredListCell>
+									<StructuredListCell>
+										{users.length}
+									</StructuredListCell>
 								</StructuredListRow>
-							</StructuredListHead>
-							<StructuredListRow>
-								<StructuredListCell>Number of users</StructuredListCell>
-								<StructuredListCell>
-									{users.length}
-								</StructuredListCell>
-							</StructuredListRow>
-							<StructuredListRow>
-								<StructuredListCell>Number of poll cards</StructuredListCell>
-								<StructuredListCell>
-									{polls.length}
-								</StructuredListCell>
-							</StructuredListRow>
-							<StructuredListRow>
-								<StructuredListCell>Number of users with no poll card</StructuredListCell>
-								<StructuredListCell>
-									{missingPollCard}
-								</StructuredListCell>
-							</StructuredListRow>
-							<StructuredListBody />
-						</StructuredList>
-					{/await}
+								<StructuredListRow>
+									<StructuredListCell>Number of poll cards</StructuredListCell>
+									<StructuredListCell>
+										{polls.length}
+									</StructuredListCell>
+								</StructuredListRow>
+								<StructuredListRow>
+									<StructuredListCell>Number of users with no poll card</StructuredListCell>
+									<StructuredListCell>
+										{missingPollCard}
+									</StructuredListCell>
+								</StructuredListRow>
+								<StructuredListBody />
+							</StructuredList>
+						{/await}
+					</Column>
 				</Row>
 			</Column>
 		</Row>
@@ -229,7 +230,7 @@
 		}}
 	>
 		<ModalHeader label="Admin Utilities" title="Create New Users" />
-		<ModalBody>			
+		<ModalBody>
 			<NumberInput label="Number of new users to create" bind:value={createNewUsersNum} />
 		</ModalBody>
 		<ModalFooter
