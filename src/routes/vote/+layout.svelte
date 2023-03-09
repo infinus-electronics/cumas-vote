@@ -8,6 +8,7 @@
 		SideNav,
 		SideNavDivider,
 		SideNavItems,
+		SideNavLink,
 		SideNavMenuItem,
 		Tile
 	} from 'carbon-components-svelte';
@@ -18,7 +19,9 @@
 	import { isSideBarOpenW } from '$lib//navBarStore';
 	import type { LayoutData } from './$types';
 	import { getContext, onMount } from 'svelte';
-	import type {contextStore} from "$lib/pocketbase"
+	import type {contextStore} from "$lib/pocketbase";
+	import {NewTab} from "carbon-icons-svelte";
+
 
 	export let data: LayoutData;
 
@@ -74,6 +77,8 @@
 				data-sveltekit-preload-data="tap">{conamend.title}</SideNavMenuItem
 			>
 		{/each}
+		<SideNavDivider />
+		<SideNavLink text="Anonymous Q&A" href="https://app.sli.do/event/bqjuQXb1XxSYu7T7KFfxBV" target="_blank" icon={NewTab}></SideNavLink>
 	</SideNavItems>
 </SideNav>
 
