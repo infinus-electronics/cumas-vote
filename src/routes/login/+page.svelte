@@ -67,7 +67,7 @@
 					
 					
 				>
-					<TextInput labelText="CRSid" type="id" name="id" placeholder="cumas94" required />
+					<TextInput labelText="Username" type="id" name="id" placeholder="cumas94" required />
 					<PasswordInput
 						required
 						name= "password"

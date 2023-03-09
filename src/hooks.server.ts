@@ -26,43 +26,43 @@
 // }
 
 // import { pb } from '$lib/pocketbase'
-import PocketBase from "pocketbase"
-import type { Handle } from '@sveltejs/kit'
-import uuid from "uuid";
-import {PUBLIC_POCKETBASE_URL} from "$env/static/public"
+import PocketBase from 'pocketbase';
+import type { Handle } from '@sveltejs/kit';
+import uuid from 'uuid';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 
-export const handle: Handle = async ({ event, resolve }) => { 
+export const handle: Handle = async ({ event, resolve }) => {
+	event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
-  
-  event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL)
-  
-  // before
-  // console.log(event.request.headers.get('cookie'))
-  event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
-  // console.log(event.locals)
-  // console.log("handle")
-  if (event.locals.pb.authStore.isValid) {
-    try {
-      await event.locals.pb.collection('users').authRefresh()
-    } catch (_) {
-      event.locals.pb.authStore.clear()
-    }
-  }
-  
-  // event.locals.pb = pb
-  // event.locals.user = structuredClone(event.locals.pb.authStore.model)
+	// before
+	// console.log(event.request.headers.get('cookie'))
+	event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
+	// console.log(event.locals)
+	// console.log("handle")
+	if (event.locals.pb.authStore.isValid) {
+		try {
+			await event.locals.pb.collection('users').authRefresh();
+		} catch (_) {
+			event.locals.pb.authStore.clear();
+		}
+	}
 
-  // console.log(event.locals.session)
+	// event.locals.pb = pb
+	// event.locals.user = structuredClone(event.locals.pb.authStore.model)
 
-  const response = await resolve(event)
+	// console.log(event.locals.session)
 
-  // after
-  response.headers.append('set-cookie', event.locals.pb.authStore.exportToCookie({httpOnly: false}));
-  response.headers.set(
+	const response = await resolve(event);
+
+	// after
+	response.headers.append(
+		'set-cookie',
+		event.locals.pb.authStore.exportToCookie({ httpOnly: false })
+	);
+	response.headers.set(
 		'Permissions-Policy',
 		'accelerometer=(), autoplay=(), camera=(), document-domain=(), encrypted-media=(), fullscreen=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), sync-xhr=(), usb=(), xr-spatial-tracking=(), geolocation=()'
 	);
 
-
-  return response
-}
+	return response;
+};
