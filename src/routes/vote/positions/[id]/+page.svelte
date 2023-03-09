@@ -40,6 +40,7 @@
 			currentRecord = record;
 
 			pb.collection('positions').unsubscribe();
+			pb.collection('candidates').unsubscribe();
 			pb.collection('positions').subscribe(record.id, function (e) {
 				// console.log(e.record);
 				setOpenToVote(e.record.open_to_vote);
@@ -51,6 +52,15 @@
 					// console.log(res);
 					candidates = res;
 				});
+			pb.collection('candidates').subscribe("*", (async()=>{
+				pb.collection('candidates')
+				.getFullList({ filter: `(contesting~"${record.id}")` })
+				.then((res) => {
+					// console.log(res);
+					candidates = res;
+				});
+			}));
+			
 		});
 
 	let selectedA: string | undefined;
@@ -118,6 +128,7 @@
 
 	onDestroy(() => {
 		pb.collection('positions').unsubscribe();
+		pb.collection('candidates').unsubscribe();
 	});
 	// onMount(async()=>{
 	//     const record = await pb.collection('positions').getOne(data.currentSelected)
