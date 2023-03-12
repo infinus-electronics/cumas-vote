@@ -36,7 +36,7 @@
 	$: pb.collection('positions')
 		.getOne(data.currentSelected)
 		.then((record) => {
-			// console.log(record);
+			console.log(record);
 			currentRecord = record;
 
 			pb.collection('positions').unsubscribe();
@@ -46,20 +46,21 @@
 				setOpenToVote(e.record.open_to_vote);
 			});
 			setOpenToVote(record.open_to_vote);
+
 			pb.collection('candidates')
 				.getFullList({ filter: `(contesting~"${record.id}")` })
 				.then((res) => {
-					// console.log(res);
+					console.log(res);
 					candidates = res;
 				});
-			pb.collection('candidates').subscribe("*", (async()=>{
-				pb.collection('candidates')
-				.getFullList({ filter: `(contesting~"${record.id}")` })
-				.then((res) => {
-					// console.log(res);
-					candidates = res;
-				});
-			}));
+			// pb.collection('candidates').subscribe("*", (async()=>{
+			// 	pb.collection('candidates')
+			// 	.getFullList({ filter: `(contesting~"${record.id}")` })
+			// 	.then((res) => {
+			// 		// console.log(res);
+			// 		candidates = res;
+			// 	});
+			// }));
 			
 		});
 

@@ -88,23 +88,38 @@
 	// 	// console.log(unsubPB);
 	// })
 
-	let isSideNavOpen = true;
+	// let isSideNavOpen = true;
 	let innerWidth = 2048;
 	let isMobile: Boolean = false;
 
+	onMount(()=>{
+		isMobile = innerWidth < 1056;
+		if (isMobile) {
+			// console.log(isMobile)
+			$isSideBarOpenW = false;
+		} else {
+			// console.log(isMobile)
+			$isSideBarOpenW = true;
+		}
+	})
+
 	$: isMobile = innerWidth < 1056;
+	// $: console.log(innerWidth)
 
 	$: {
 		if (isMobile) {
 			// console.log(isMobile)
-			isSideBarOpenW.set(false);
+			$isSideBarOpenW = false;
 		} else {
-			isSideBarOpenW.set(true);
+			// console.log(isMobile)
+			$isSideBarOpenW = true;
 		}
 		// console.log(isSideNavOpen);
 	}
 
-	$: isSideBarOpenW.set(isSideNavOpen);
+	// $: console.log($isSideBarOpenW)
+
+	// $: isSideBarOpenW.set(isSideNavOpen);
 
 	function logout() {
 		pb.authStore.clear();
@@ -114,7 +129,7 @@
 
 <svelte:window bind:innerWidth />
 
-<Header company={sudo ? 'sudo' : ''} expandedByDefault={true} bind:isSideNavOpen href="/">
+<Header company={sudo ? 'sudo' : ''} expandedByDefault={true} bind:isSideNavOpen={$isSideBarOpenW} href="/">
 	<span slot="platform" class="platform-name">
 		CUMaS Voting System &nbsp;<code class="code-01">v{PUBLIC_VERSION || ''}</code>
 	</span>

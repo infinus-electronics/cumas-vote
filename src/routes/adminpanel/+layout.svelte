@@ -19,7 +19,8 @@
 	// const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
 </script>
 
-<SideNav isOpen={$isSideBarOpenW}>
+<!-- //TODO: use bind:isOpen -->
+<SideNav bind:isOpen={$isSideBarOpenW}>
 	<SideNavItems>
 		<div class="username">
 			<p>Welcome</p>

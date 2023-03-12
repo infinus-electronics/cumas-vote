@@ -21,9 +21,12 @@
 	import { getContext, onMount } from 'svelte';
 	import type {contextStore} from "$lib/pocketbase";
 	import {NewTab} from "carbon-icons-svelte";
+	import { get } from 'svelte/store';
 
 
 	export let data: LayoutData;
+
+	$: console.log($isSideBarOpenW)
 
 	// const { currentUser, pb, isSideBarOpenW } = getContext(key) satisfies contextStore;
 
@@ -52,7 +55,7 @@
 	</HeaderUtilities>
 </Header> -->
 
-<SideNav isOpen={$isSideBarOpenW}>
+<SideNav bind:isOpen={$isSideBarOpenW}>
 	<SideNavItems>
 		<div class="username">
 			<p>Welcome</p>
