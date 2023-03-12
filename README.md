@@ -62,3 +62,6 @@ The admin utilities are very crude (and dangerous), make sure you know what they
 - [ ] Better streamline the authentication logic to share auth state between client and server.
 - [ ] Add support for voting multiple people for roles that have more than one vacancy.
 - [ ] Add error message for login fails: as of now if you enter invalid credentials the page just refreshes and gives the user no clue what went wrong.
+- [ ] Better, less reckless admin utilities.
+- [ ] Matrix UI to view which candidates are running for which roles.
+- [ ] Fancy charts to illustrate vote ranks.
