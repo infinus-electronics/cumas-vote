@@ -81,6 +81,16 @@
 			>
 		{/each}
 		<SideNavDivider />
+			<SideNavItems>
+				{#each data.candidates as candidate}
+					<SideNavMenuItem
+						id={candidate.id}
+						isSelected = {data.currentSelected === candidate.id}
+						href="/vote/manifesto/{candidate.id}"
+						data-sveltekit-preload-data="tap">Manifesto: {candidate.first_name}, {candidate.last_name}</SideNavMenuItem>
+				{/each}
+			</SideNavItems>
+		<SideNavDivider />
 		<SideNavLink text="Anonymous Q&A" href="https://app.sli.do/event/bqjuQXb1XxSYu7T7KFfxBV" target="_blank" icon={NewTab}></SideNavLink>
 	</SideNavItems>
 </SideNav>

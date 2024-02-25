@@ -14,7 +14,7 @@ It uses SvelteKit at its core, with data handling and realtime state management 
 
 ### Pocketbase
 
-Install [PocketBase](https://pocketbase.io), create an admin user, and upload `pb_schema.json` to set up the required collections. This is just a base setup, and collections can be added and customised to suit your needs.
+Install [PocketBase](https://pocketbase.io) (tested with pocketbase v0.13), create an admin user, and upload `pb_schema.json` to set up the required collections. This is just a base setup, and collections can be added and customised to suit your needs.
 
 Also register a user with role set to `moderator`. This user will have access to the admin panel. Regular users should have their role set to `user`.
 
